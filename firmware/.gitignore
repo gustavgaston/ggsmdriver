@@ -1,0 +1,8 @@
+# make build output
+build/
+
+# STM32CubeIDE build configurations and per-user state
+Debug/
+Release/
+.settings/
+*.launch

@@ -39,7 +39,12 @@ checkout, with `GGSM` set to this repo's path (e.g. `GGSM=../GGSMDriver`).
   writes `kicad/fab/ggsmdriver-gerbers.zip`, `-bom.csv`, `-cpl.csv` for JLCPCB
   (BOM from the `LCSC` fields in the .py). Rerun after any PCB regeneration.
   CPL rotations are KiCad's; check them in JLC's placement preview.
-- Next: port ggstepper firmware to the G0B1.
+- Firmware (2026-10-17, in review): `firmware/` is an STM32 HAL port of ggstepper core +
+  the Automato bridge (`automato.serial.v2` over USB CDC). `make` in `firmware/` builds
+  (arm-none-eabi-gcc 13.2; ~61 KB flash). CubeIDE `.project/.cproject` adapted from ST's
+  template, never opened in CubeIDE. Nothing run on hardware yet. Open items are the
+  `TODO(verify)` list in `firmware/README.md`. Current: IRUN=IHOLD=3, VSENSE=1 with
+  0.05 Ω ≈ 0.23 A RMS; VREF trimmer has no effect (GCONF i_scale_analog=0).
 - Files are KiCad 7 format (cloud container has KiCad 7.0.11 via apt; no newer
   KiCad reachable). KiCad 10 opens and upgrades them. KiCad 7's CLI has no ERC:
   the generator checks connectivity via the exported netlist plus a structural
