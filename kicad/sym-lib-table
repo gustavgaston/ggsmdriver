@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "ggsmdriver")(type "KiCad")(uri "${KIPRJMOD}/libraries/ggsmdriver.kicad_sym")(options "")(descr ""))
+)

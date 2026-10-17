@@ -1,0 +1,8 @@
+parts: 69  nets: 45
+placement: 0 problems
+routing: 484 segments, 36 vias, 0 unrouted
+stitched GND: 0 vias, 0 unrouted
+DRC: 3 x silk_edge_clearance, 34 x silk_over_copper, 51 x silk_overlap, 4 x track_dangling
+unconnected items: 0
+preview: reports/preview.svg
+runtime: 381 s
