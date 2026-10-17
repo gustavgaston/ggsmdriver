@@ -138,3 +138,13 @@ capacitors get picked from JLC Basic parts in milestone 2.
   terminal J3 on the right; jack and supply terminal on the left; USB-C bottom;
   expansion header top; current trimmer RV1 bottom right. Motor and sense nets 0.8 mm,
   power nets 0.5 mm, signals 0.2 mm. 3×3 vias under the TMC2209 pad into the GND plane.
+
+## Confirmed 2026-10-17 (firmware)
+
+- Framework: STM32 HAL, as an STM32CubeIDE project in `firmware/` (plus a Makefile
+  for command-line builds).
+- Scope of the first port: ggstepper core only (driver UART setup, StallGuard/DIAG
+  homing, normalized moves, status, debug reports). Sequences and the
+  calibration/configurator commands come later.
+- Host protocol: the Automato bridge (`automato.serial.v2`) over USB CDC serial, so
+  the module drops in where the Uno + ggstepper was used.
