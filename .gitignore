@@ -1,2 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+
+# KiCad local state, history, locks and backups
 .history/
+*.kicad_prl
+*.lck
+*-backups/
+fp-info-cache
+_autosave-*
+\#auto_saved_files\#
+
+# OS
 .DS_Store
