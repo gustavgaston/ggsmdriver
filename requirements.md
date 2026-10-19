@@ -64,10 +64,12 @@ Deviations (confirmed 2026-10-16):
 - INDEX left unconnected.
 
 ### Connectors
-- J2 2-pole terminal 3.5 mm (pin 1 VIN, pin 2 GND), right below J3 on the same edge, so
-  power and motor form one row (KF350 2P + 4P; JLC stocks no 6P). 1 mm gap between them.
-- J3 4-pole terminal 3.5 mm, pin 1 to 4: A2, A1, B1, B2 (matches the TMC2209 pin order,
-  so the motor tracks don't cross; coil A polarity only flips the direction).
+- J2 2-pole terminal 3.5 mm (pin 1 VIN, pin 2 GND), below the motor terminals on the same
+  edge, so power and motor form one row: three KF350-3.5-2P blocks (JLC stocks no 4P or 6P),
+  about 1 mm apart so the footprint courtyards clear.
+- J6 (coil B: B1, B2) and J3 (coil A: A2, A1), 2-pole 3.5 mm each. Top to bottom the edge
+  reads B2 B1 | A1 A2 | GND VIN (matches the TMC2209 pin order, so the motor tracks don't
+  cross; coil A polarity only flips the direction).
 - J4 1×7 2.54 mm header: +5V, +3V3, GND, IO1, IO2, ENC_A, ENC_B.
 - J5 USB-C.
 
@@ -111,7 +113,7 @@ capacitors get picked from JLC Basic parts in milestone 2.
 | U5 | USBLC6-2SC6 | C7519 | Extended | |
 | J5 | USB-C HRO TYPE-C-31-M-12 | C165948 | Extended | |
 | J2 | KF350-3.5-2P terminal | C474892 | Extended | THT |
-| J3 | KF350-3.5-4P terminal | C42400616 | Extended | THT |
+| J3, J6 | KF350-3.5-2P terminal (4P C42400616 out of stock) | C474892 | Extended | THT |
 | J4 | 1×7 2.54 mm header PZ254V-11-07P | C492406 | Extended | THT |
 | R_sense ×2 | 0.05 Ω 1 W 1206 RALEC LR1206-21R050F4 (CUM1206 out of stock) | C154645 | Extended | |
 | LEDs | 0603 red KT-0603R (PWR, STEP, DIR high) / green KT-0603G (STATUS, DIR low) | C2286 / C12624 | Basic / Extended | |
@@ -160,6 +162,12 @@ capacitors get picked from JLC Basic parts in milestone 2.
   (C154645), LEDs red C2286 (Basic) and green C12624 (Extended). No in-stock Basic green,
   blue or yellow 0603 LED found; white is Basic but too dim on 3.3 V through 1-20 k.
 - Fixed: TMC2209 SPREAD pin had been left unconnected by the 2026-10-19 rework edit.
+
+## 2026-10-19 (round 3: stock)
+
+- C20 22 µF 50 V: Lelon VES220M1HTR-0605 (C176676, 6.3×5.3 mm) replaces 50CE22FS C242075.
+- Motor terminal split into two KF350-3.5-2P (J6 coil B, J3 coil A) since the 4P is out of
+  stock; coil B tracks, R10 and C19 moved up to make room.
 
 ## Confirmed 2026-10-17 (firmware)
 

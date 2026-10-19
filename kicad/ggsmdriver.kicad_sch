@@ -1833,99 +1833,6 @@
           (length 3.81)
           (name "Pin_2" (effects (font (size 1.27 1.27))))
           (number "2" (effects (font (size 1.27 1.27)))))))
-    (symbol "Connector:Screw_Terminal_01x04"
-      (pin_names (offset 1.016) hide)
-      (in_bom yes)
-      (on_board yes)
-      (property "Reference" "J" (at 0 5.08 0) (effects (font (size 1.27 1.27))))
-      (property "Value" "Screw_Terminal_01x04" (at 0 -7.62 0) (effects (font (size 1.27 1.27))))
-      (property "Footprint" "" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
-      (property "Datasheet" "~" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
-      (property "ki_keywords" "screw terminal" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
-      (property "ki_description" "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
-        (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide))
-      (property "ki_fp_filters" "TerminalBlock*:*"
-        (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide))
-      (symbol "Screw_Terminal_01x04_1_1"
-        (rectangle
-          (start -1.27 3.81)
-          (end 1.27 -6.35)
-          (stroke (width 0.254) (type default))
-          (fill (type background)))
-        (circle
-          (center 0 -5.08)
-          (radius 0.635)
-          (stroke (width 0.1524) (type default))
-          (fill (type none)))
-        (circle
-          (center 0 -2.54)
-          (radius 0.635)
-          (stroke (width 0.1524) (type default))
-          (fill (type none)))
-        (polyline
-          (pts (xy -0.5334 -4.7498) (xy 0.3302 -5.588))
-          (stroke (width 0.1524) (type default))
-          (fill (type none)))
-        (polyline
-          (pts (xy -0.5334 -2.2098) (xy 0.3302 -3.048))
-          (stroke (width 0.1524) (type default))
-          (fill (type none)))
-        (polyline
-          (pts (xy -0.5334 0.3302) (xy 0.3302 -0.508))
-          (stroke (width 0.1524) (type default))
-          (fill (type none)))
-        (polyline
-          (pts (xy -0.5334 2.8702) (xy 0.3302 2.032))
-          (stroke (width 0.1524) (type default))
-          (fill (type none)))
-        (polyline
-          (pts (xy -0.3556 -4.572) (xy 0.508 -5.4102))
-          (stroke (width 0.1524) (type default))
-          (fill (type none)))
-        (polyline
-          (pts (xy -0.3556 -2.032) (xy 0.508 -2.8702))
-          (stroke (width 0.1524) (type default))
-          (fill (type none)))
-        (polyline
-          (pts (xy -0.3556 0.508) (xy 0.508 -0.3302))
-          (stroke (width 0.1524) (type default))
-          (fill (type none)))
-        (polyline
-          (pts (xy -0.3556 3.048) (xy 0.508 2.2098))
-          (stroke (width 0.1524) (type default))
-          (fill (type none)))
-        (circle
-          (center 0 0)
-          (radius 0.635)
-          (stroke (width 0.1524) (type default))
-          (fill (type none)))
-        (circle
-          (center 0 2.54)
-          (radius 0.635)
-          (stroke (width 0.1524) (type default))
-          (fill (type none)))
-        (pin passive line
-          (at -5.08 2.54 0)
-          (length 3.81)
-          (name "Pin_1" (effects (font (size 1.27 1.27))))
-          (number "1" (effects (font (size 1.27 1.27)))))
-        (pin passive line
-          (at -5.08 0 0)
-          (length 3.81)
-          (name "Pin_2" (effects (font (size 1.27 1.27))))
-          (number "2" (effects (font (size 1.27 1.27)))))
-        (pin passive line
-          (at -5.08 -2.54 0)
-          (length 3.81)
-          (name "Pin_3" (effects (font (size 1.27 1.27))))
-          (number "3" (effects (font (size 1.27 1.27)))))
-        (pin passive line
-          (at -5.08 -5.08 0)
-          (length 3.81)
-          (name "Pin_4" (effects (font (size 1.27 1.27))))
-          (number "4" (effects (font (size 1.27 1.27)))))))
     (symbol "Connector:Conn_01x07_Pin"
       (pin_names (offset 1.016) hide)
       (in_bom yes)
@@ -2128,7 +2035,7 @@
     (uuid "f4a1600f-353b-5def-b0d8-502e620129f4"))
   (rectangle
     (start 12.7 246.38)
-    (end 121.92 294.64)
+    (end 144.78 294.64)
     (stroke (width 0) (type dash))
     (fill (type none))
     (uuid "6205c10f-a7f2-575f-a49b-3c70dd053233"))
@@ -3809,11 +3716,11 @@
     (uuid "b0a459b1-44df-5a7e-8cd5-be85993dfb99")
     (property "Reference" "C20" (at 447.04 118.11 0) (effects (font (size 1.27 1.27))))
     (property "Value" "22uF 50V" (at 447.04 120.65 0) (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Capacitor_SMD:CP_Elec_6.3x5.9"
+    (property "Footprint" "Capacitor_SMD:CP_Elec_6.3x5.4"
       (at 447.04 134.62 0)
       (effects (font (size 1.27 1.27)) hide))
     (property "Datasheet" "~" (at 447.04 134.62 0) (effects (font (size 1.27 1.27)) hide))
-    (property "LCSC" "C242075" (at 447.04 134.62 0) (effects (font (size 1.27 1.27)) hide))
+    (property "LCSC" "C176676" (at 447.04 134.62 0) (effects (font (size 1.27 1.27)) hide))
     (pin "1" (uuid "d3ab43ab-335a-58f9-a987-1263e96bfe99"))
     (pin "2" (uuid "d4e91c4f-95f5-588f-8f1b-1be9fd5cb330"))
     (instances
@@ -4247,58 +4154,76 @@
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid "bb547e74-414b-54ed-b08b-5ed0b05e7243"))
   (symbol
-    (lib_id "Connector:Screw_Terminal_01x04")
-    (at 53.34 271.78 0)
+    (lib_id "Connector:Screw_Terminal_01x02")
+    (at 53.34 269.24 0)
     (unit 1)
     (in_bom yes)
     (on_board yes)
     (dnp no)
     (uuid "7d1b8bcb-0e6c-5471-905c-f9b99ac9bd46")
     (property "Reference" "J3" (at 46.99 260.35 0) (effects (font (size 1.27 1.27))))
-    (property "Value" "MOTOR A2 A1 B1 B2" (at 46.99 262.89 0) (effects (font (size 1.27 1.27))))
-    (property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-4-3.5-H_1x04_P3.50mm_Horizontal"
-      (at 53.34 271.78 0)
+    (property "Value" "MOTOR A2 A1" (at 46.99 262.89 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-2-3.5-H_1x02_P3.50mm_Horizontal"
+      (at 53.34 269.24 0)
       (effects (font (size 1.27 1.27)) hide))
-    (property "Datasheet" "~" (at 53.34 271.78 0) (effects (font (size 1.27 1.27)) hide))
-    (property "LCSC" "C42400616" (at 53.34 271.78 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Datasheet" "~" (at 53.34 269.24 0) (effects (font (size 1.27 1.27)) hide))
+    (property "LCSC" "C474892" (at 53.34 269.24 0) (effects (font (size 1.27 1.27)) hide))
     (pin "1" (uuid "a2fc7bcb-53fc-52c4-ac57-facd7016b03c"))
     (pin "2" (uuid "2b439aa9-7a0d-5053-bb01-8e0cdbacfbbd"))
-    (pin "3" (uuid "294faa0d-7300-5e7e-b2c0-8d384694150e"))
-    (pin "4" (uuid "8d4fdaf9-b2c4-593d-ac15-d51df5827d1c"))
     (instances
       (project "ggsmdriver"
         (path "/d2c479e8-b366-5642-b905-795d77a1c823" (reference "J3") (unit 1)))))
   (label "MOT_A2"
     (at 48.26 269.24 180)
     (effects (font (size 1.27 1.27)) (justify right bottom))
-    (uuid "b3ac9a96-92e8-5821-8578-4f0a454dc06e"))
+    (uuid "68ba5bc2-45c7-567d-946c-3479bc736b2a"))
   (label "MOT_A1"
     (at 48.26 271.78 180)
     (effects (font (size 1.27 1.27)) (justify right bottom))
-    (uuid "68ba5bc2-45c7-567d-946c-3479bc736b2a"))
-  (label "MOT_B1"
-    (at 48.26 274.32 180)
-    (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid "1445f0d9-eec2-5331-84bd-5788914f8ff2"))
-  (label "MOT_B2"
-    (at 48.26 276.86 180)
+  (symbol
+    (lib_id "Connector:Screw_Terminal_01x02")
+    (at 76.2 269.24 0)
+    (unit 1)
+    (in_bom yes)
+    (on_board yes)
+    (dnp no)
+    (uuid "d1af5b57-83fa-59be-9912-30700b4420af")
+    (property "Reference" "J6" (at 69.85 260.35 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "MOTOR B1 B2" (at 69.85 262.89 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-2-3.5-H_1x02_P3.50mm_Horizontal"
+      (at 76.2 269.24 0)
+      (effects (font (size 1.27 1.27)) hide))
+    (property "Datasheet" "~" (at 76.2 269.24 0) (effects (font (size 1.27 1.27)) hide))
+    (property "LCSC" "C474892" (at 76.2 269.24 0) (effects (font (size 1.27 1.27)) hide))
+    (pin "1" (uuid "7ba9538c-4922-5028-a7e4-dd2208f1d581"))
+    (pin "2" (uuid "127bc3ec-dfe8-5106-ae8e-ad2d9f2ab918"))
+    (instances
+      (project "ggsmdriver"
+        (path "/d2c479e8-b366-5642-b905-795d77a1c823" (reference "J6") (unit 1)))))
+  (label "MOT_B1"
+    (at 71.12 269.24 180)
     (effects (font (size 1.27 1.27)) (justify right bottom))
-    (uuid "5c33cddf-c1c5-5a9d-8fe3-1af7dd6d0a05"))
+    (uuid "cc64ffc3-27f0-5fc4-80cc-c7099f8835e7"))
+  (label "MOT_B2"
+    (at 71.12 271.78 180)
+    (effects (font (size 1.27 1.27)) (justify right bottom))
+    (uuid "cded921b-0eb5-5e32-8eec-2a6dc0be49ba"))
   (symbol
     (lib_id "Connector:Conn_01x07_Pin")
-    (at 60.96 276.86 0)
+    (at 83.82 276.86 0)
     (unit 1)
     (in_bom yes)
     (on_board yes)
     (dnp no)
     (uuid "e6e0a191-a365-5f4f-bb3c-52e23e1c82dd")
-    (property "Reference" "J4" (at 67.31 260.35 0) (effects (font (size 1.27 1.27))))
-    (property "Value" "EXP" (at 67.31 262.89 0) (effects (font (size 1.27 1.27))))
+    (property "Reference" "J4" (at 90.17 260.35 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "EXP" (at 90.17 262.89 0) (effects (font (size 1.27 1.27))))
     (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x07_P2.54mm_Vertical"
-      (at 60.96 276.86 0)
+      (at 83.82 276.86 0)
       (effects (font (size 1.27 1.27)) hide))
-    (property "Datasheet" "~" (at 60.96 276.86 0) (effects (font (size 1.27 1.27)) hide))
-    (property "LCSC" "C492406" (at 60.96 276.86 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Datasheet" "~" (at 83.82 276.86 0) (effects (font (size 1.27 1.27)) hide))
+    (property "LCSC" "C492406" (at 83.82 276.86 0) (effects (font (size 1.27 1.27)) hide))
     (pin "1" (uuid "d5c61eb2-e5b9-5686-b692-6fe22eab4516"))
     (pin "2" (uuid "2e3c2883-b487-551c-ac9e-814bc9b6497c"))
     (pin "3" (uuid "71d06ae4-9046-560b-b807-d476d9cdc80e"))
@@ -4310,98 +4235,98 @@
       (project "ggsmdriver"
         (path "/d2c479e8-b366-5642-b905-795d77a1c823" (reference "J4") (unit 1)))))
   (label "+5V"
-    (at 66.04 269.24 0)
+    (at 88.9 269.24 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid "dfd0a5b5-6f52-59bd-a117-7239ee61d531"))
   (label "+3V3"
-    (at 66.04 271.78 0)
+    (at 88.9 271.78 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid "cd22e928-3844-5433-9d52-f9d5dc338e2d"))
   (label "GND"
-    (at 66.04 274.32 0)
+    (at 88.9 274.32 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid "ea4cc4d7-5eaa-5a5e-9cbe-de41bef7cc18"))
   (label "IO1"
-    (at 66.04 276.86 0)
+    (at 88.9 276.86 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid "a47bab05-0cf7-561f-afa9-ee737501b9e1"))
   (label "IO2"
-    (at 66.04 279.4 0)
+    (at 88.9 279.4 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid "e839a181-bc0b-5340-afc6-cfcdaa5ae47c"))
   (label "ENC_A"
-    (at 66.04 281.94 0)
+    (at 88.9 281.94 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid "86816f8c-dc6d-5c19-9636-345d3c9c7cd3"))
   (label "ENC_B"
-    (at 66.04 284.48 0)
+    (at 88.9 284.48 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid "16f51b8d-36cc-5b9a-ad5f-99557dcd47ec"))
   (symbol
     (lib_id "Mechanical:MountingHole")
-    (at 81.28 269.24 0)
+    (at 104.14 269.24 0)
     (unit 1)
     (in_bom yes)
     (on_board yes)
     (dnp no)
     (uuid "1d6026b6-9498-5dcb-94f5-8dfdaa0e5a0b")
-    (property "Reference" "H1" (at 81.28 260.35 0) (effects (font (size 1.27 1.27))))
-    (property "Value" "M3" (at 81.28 262.89 0) (effects (font (size 1.27 1.27))))
+    (property "Reference" "H1" (at 104.14 260.35 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "M3" (at 104.14 262.89 0) (effects (font (size 1.27 1.27))))
     (property "Footprint" "MountingHole:MountingHole_3.2mm_M3"
-      (at 81.28 269.24 0)
+      (at 104.14 269.24 0)
       (effects (font (size 1.27 1.27)) hide))
-    (property "Datasheet" "~" (at 81.28 269.24 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Datasheet" "~" (at 104.14 269.24 0) (effects (font (size 1.27 1.27)) hide))
     (instances
       (project "ggsmdriver"
         (path "/d2c479e8-b366-5642-b905-795d77a1c823" (reference "H1") (unit 1)))))
   (symbol
     (lib_id "Mechanical:MountingHole")
-    (at 91.44 269.24 0)
+    (at 114.3 269.24 0)
     (unit 1)
     (in_bom yes)
     (on_board yes)
     (dnp no)
     (uuid "72285aa0-249d-5a9f-8164-ea6a10a12130")
-    (property "Reference" "H2" (at 91.44 260.35 0) (effects (font (size 1.27 1.27))))
-    (property "Value" "M3" (at 91.44 262.89 0) (effects (font (size 1.27 1.27))))
+    (property "Reference" "H2" (at 114.3 260.35 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "M3" (at 114.3 262.89 0) (effects (font (size 1.27 1.27))))
     (property "Footprint" "MountingHole:MountingHole_3.2mm_M3"
-      (at 91.44 269.24 0)
+      (at 114.3 269.24 0)
       (effects (font (size 1.27 1.27)) hide))
-    (property "Datasheet" "~" (at 91.44 269.24 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Datasheet" "~" (at 114.3 269.24 0) (effects (font (size 1.27 1.27)) hide))
     (instances
       (project "ggsmdriver"
         (path "/d2c479e8-b366-5642-b905-795d77a1c823" (reference "H2") (unit 1)))))
   (symbol
     (lib_id "Mechanical:MountingHole")
-    (at 101.6 269.24 0)
+    (at 124.46 269.24 0)
     (unit 1)
     (in_bom yes)
     (on_board yes)
     (dnp no)
     (uuid "d0c2d8ed-aea3-5106-b628-2b6f40852739")
-    (property "Reference" "H3" (at 101.6 260.35 0) (effects (font (size 1.27 1.27))))
-    (property "Value" "M3" (at 101.6 262.89 0) (effects (font (size 1.27 1.27))))
+    (property "Reference" "H3" (at 124.46 260.35 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "M3" (at 124.46 262.89 0) (effects (font (size 1.27 1.27))))
     (property "Footprint" "MountingHole:MountingHole_3.2mm_M3"
-      (at 101.6 269.24 0)
+      (at 124.46 269.24 0)
       (effects (font (size 1.27 1.27)) hide))
-    (property "Datasheet" "~" (at 101.6 269.24 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Datasheet" "~" (at 124.46 269.24 0) (effects (font (size 1.27 1.27)) hide))
     (instances
       (project "ggsmdriver"
         (path "/d2c479e8-b366-5642-b905-795d77a1c823" (reference "H3") (unit 1)))))
   (symbol
     (lib_id "Mechanical:MountingHole")
-    (at 111.76 269.24 0)
+    (at 134.62 269.24 0)
     (unit 1)
     (in_bom yes)
     (on_board yes)
     (dnp no)
     (uuid "712a6b4b-e570-508e-b640-c18c0ecb0f71")
-    (property "Reference" "H4" (at 111.76 260.35 0) (effects (font (size 1.27 1.27))))
-    (property "Value" "M3" (at 111.76 262.89 0) (effects (font (size 1.27 1.27))))
+    (property "Reference" "H4" (at 134.62 260.35 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "M3" (at 134.62 262.89 0) (effects (font (size 1.27 1.27))))
     (property "Footprint" "MountingHole:MountingHole_3.2mm_M3"
-      (at 111.76 269.24 0)
+      (at 134.62 269.24 0)
       (effects (font (size 1.27 1.27)) hide))
-    (property "Datasheet" "~" (at 111.76 269.24 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Datasheet" "~" (at 134.62 269.24 0) (effects (font (size 1.27 1.27)) hide))
     (instances
       (project "ggsmdriver"
         (path "/d2c479e8-b366-5642-b905-795d77a1c823" (reference "H4") (unit 1)))))
