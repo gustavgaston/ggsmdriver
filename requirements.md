@@ -117,7 +117,7 @@ capacitors get picked from JLC Basic parts in milestone 2.
 | J4 | 1×7 2.54 mm header PZ254V-11-07P | C492406 | Extended | THT |
 | R_sense ×2 | 0.05 Ω 1 W 1206 RALEC LR1206-21R050F4 (CUM1206 out of stock) | C154645 | Extended | |
 | LEDs | 0603 red KT-0603R (PWR, STEP, DIR high) / green KT-0603G (STATUS, DIR low) | C2286 / C12624 | Basic / Extended | |
-| C_bulk | 22 µF 50 V electrolytic 50CE22FS | C242075 | Extended | |
+| C_bulk | 22 µF 50 V electrolytic Lelon VES220M1HTR-0605 | C176676 | Extended | |
 | SW1, SW2 | TS-1187A-B-A-B tactile | C318884 | ? | BOOT, RESET |
 
 ## Confirmed 2026-10-16 (milestone 1 review)
