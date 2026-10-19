@@ -34,7 +34,9 @@ checkout, with `GGSM` set to this repo's path (e.g. `GGSM=../GGSMDriver`).
   `b.keepout()`s), like the Adafruit breakout. U1 pin 31 (+3V3) is joined by an
   `after_route=True` track, because Freerouting leaves it open and hangs if given a via
   there; if routing changes, that track may need moving.
-  Last run (2026-10-19): 0 unrouted, no DRC errors; only silkscreen warnings.
+  C16, C17, R12 and JP1 are pinned with b.place(): when region() moved them, the router
+  stranded ENN/STEP. Last run (2026-10-19, round 2): 0 unrouted, no DRC errors; only
+  silkscreen warnings.
   Freerouting is chaotic: small design changes can make it hang until the timeout.
 - Gustav's M3 review (2026-10-16): layout is fine as a practice run. He wants to
   rework routing, some placement and the silkscreen **later**; we may come back,

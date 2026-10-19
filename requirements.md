@@ -7,7 +7,7 @@ Milestone 1, 2026-10-16. All confirmed by Gustav.
 | Topic | Decision |
 |---|---|
 | MCU | STM32G0B1CBT6 (LQFP48) |
-| Supply | 9–24 V DC, one input used at a time: 5.5×2.1 mm barrel jack **or** 2-pole terminal, wired in parallel. No protection. |
+| Supply | 9–24 V DC on a 2-pole terminal next to the motor terminal (barrel jack dropped 2026-10-19). No protection. |
 | Supply use | Feeds TMC2209 VM directly; a buck makes 5 V, an LDO makes 3.3 V for MCU and TMC2209 VCC_IO. |
 | USB | USB-C, USB 2.0 FS device, firmware upload via ROM DFU (BOOT button). USB alone powers the MCU when the supply is off. |
 | Driver | TMC2209, Adafruit breakout as the base circuit. STEP/DIR/EN hardwired to the MCU, UART for setup, DIAG to the MCU. |
@@ -18,7 +18,7 @@ Milestone 1, 2026-10-16. All confirmed by Gustav.
 ## Blocks
 
 ### Power
-- `VIN` (9–24 V) = barrel jack ∥ 2-pole terminal → TMC2209 VS, buck input.
+- `VIN` (9–24 V) = 2-pole terminal → TMC2209 VS, buck input.
 - Buck TPS54202 (4.5–28 V in, 500 kHz) → `+5V`, using TI's 5 V reference
   design: 15 µH, 2 × 22 µF 25 V out, 10 µF 50 V + 0.1 µF in, 0.1 µF BOOT,
   FB 100 k / 13 k (5.18 V) with 75 pF across the top resistor, EN left to its pull-up.
@@ -64,7 +64,8 @@ Deviations (confirmed 2026-10-16):
 - INDEX left unconnected.
 
 ### Connectors
-- J1 barrel jack DC-005 (5.5 mm, 2.0 mm pin), J2 2-pole terminal 3.5 mm (VIN, GND).
+- J2 2-pole terminal 3.5 mm (pin 1 VIN, pin 2 GND), right below J3 on the same edge, so
+  power and motor form one row (KF350 2P + 4P; JLC stocks no 6P). 1 mm gap between them.
 - J3 4-pole terminal 3.5 mm, pin 1 to 4: A2, A1, B1, B2 (matches the TMC2209 pin order,
   so the motor tracks don't cross; coil A polarity only flips the direction).
 - J4 1×7 2.54 mm header: +5V, +3V3, GND, IO1, IO2, ENC_A, ENC_B.
@@ -102,18 +103,18 @@ capacitors get picked from JLC Basic parts in milestone 2.
 | Ref | Part | LCSC | JLC type | Note |
 |---|---|---|---|---|
 | U1 | STM32G0B1CBT6 | C2847904 | ? | 137 in stock at LCSC |
-| U2 | TMC2209-LA | C465949 | Extended | |
+| U2 | TMC2209-LA-T (tape & reel of -LA; -LA C465949 out of stock) | C2150710 | Extended | |
 | U3 | TPS54202DDCR | C191884 | ? | 230k in stock |
 | L1 | 15 µH 2.5 A SMNR6045-150MT | C467142 | Extended | 6×6 mm |
 | U4 | XC6206P332MR-G | C5446 | Basic | |
 | D1 | SS14 (VBUS OR-diode) | C2480 | Basic | |
 | U5 | USBLC6-2SC6 | C7519 | Extended | |
 | J5 | USB-C HRO TYPE-C-31-M-12 | C165948 | Extended | |
-| J1 | DC-005 barrel jack, 2.0 mm pin | C16214 | ? | THT |
 | J2 | KF350-3.5-2P terminal | C474892 | Extended | THT |
 | J3 | KF350-3.5-4P terminal | C42400616 | Extended | THT |
 | J4 | 1×7 2.54 mm header PZ254V-11-07P | C492406 | Extended | THT |
-| R_sense ×2 | 0.05 Ω 1 W 1206 FORT CUM1206-15FR050 | C5185600 | Extended | |
+| R_sense ×2 | 0.05 Ω 1 W 1206 RALEC LR1206-21R050F4 (CUM1206 out of stock) | C154645 | Extended | |
+| LEDs | 0603 red KT-0603R (PWR, STEP, DIR high) / green KT-0603G (STATUS, DIR low) | C2286 / C12624 | Basic / Extended | |
 | C_bulk | 22 µF 50 V electrolytic 50CE22FS | C242075 | Extended | |
 | SW1, SW2 | TS-1187A-B-A-B tactile | C318884 | ? | BOOT, RESET |
 
@@ -150,6 +151,15 @@ capacitors get picked from JLC Basic parts in milestone 2.
 - J3 pin order is A2, A1, B1, B2.
 - Track widths now really apply (motor/sense 0.8-1 mm, power 0.5 mm, +3V3 and signals
   0.2 mm); before this every track was routed at 0.2 mm.
+
+## Confirmed 2026-10-19 (round 2, Gustav)
+
+- Barrel jack J1 removed; power only via the 2-pole terminal J2, moved next to the motor
+  terminal on the right edge.
+- Stocked replacements: TMC2209-LA-T (C2150710), sense resistors RALEC LR1206-21R050F4
+  (C154645), LEDs red C2286 (Basic) and green C12624 (Extended). No in-stock Basic green,
+  blue or yellow 0603 LED found; white is Basic but too dim on 3.3 V through 1-20 k.
+- Fixed: TMC2209 SPREAD pin had been left unconnected by the 2026-10-19 rework edit.
 
 ## Confirmed 2026-10-17 (firmware)
 

@@ -31,7 +31,9 @@ LCSC = {
     "22nF 50V": "C77571", "220nF": "C64705", "220nF 50V": "C64705",
     "1uF": "C15849", "75pF": "C1681", "4.7uF": "C1779", "10uF": "C15850",
     "10uF 50V": "C13585", "22uF 25V": "C12891",
-    "PWR green": "C12624", "STATUS blue": "C72041", "STEP yellow": "C2287",
+    # LEDs (2026-10-19): red KT-0603R is JLC Basic; green KT-0603G is Extended (no
+    # in-stock Basic green/blue/yellow found); white is Basic but too dim on 3.3 V.
+    "PWR red": "C2286", "STATUS green": "C12624", "STEP red": "C2286",
     "DIR red": "C2286", "DIR green": "C12624",
 }
 
@@ -76,14 +78,7 @@ def build():
         s.add(ref, "Device:LED", value, LED0603, {"A": anode, "K": cathode},
               block, {"LCSC": LCSC[value]})
 
-    # --- Power in: barrel jack and terminal in parallel, 9-24 V ---------
-    b = "Power input"
-    s.add("J1", "Connector:Barrel_Jack_Switch", "DC-005",
-          "Connector_BarrelJack:BarrelJack_Horizontal",
-          {"1": "VIN", "2": "GND"}, b, {"LCSC": "C16214"})
-    s.add("J2", "Connector:Screw_Terminal_01x02", "VIN 9-24V",
-          "TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-2-3.5-H_1x02_P3.50mm_Horizontal",
-          {"1": "VIN", "2": "GND"}, b, {"LCSC": "C474892"})
+    # --- Power in: 9-24 V on the first two poles of J3 (Connectors) ----
     s.pwr_flag("VIN")
     s.pwr_flag("GND")
 
@@ -133,7 +128,7 @@ def build():
     c("C9", "1uF", "+5V", "GND", b)
     c("C10", "1uF", "+3V3", "GND", b)
     r("R6", "1k", "+3V3", "LED_PWR", b)
-    led("D2", "PWR green", "LED_PWR", "GND", b)
+    led("D2", "PWR red", "LED_PWR", "GND", b)
 
     # --- MCU --------------------------------------------------------------
     b = "MCU"
@@ -154,7 +149,7 @@ def build():
     c("C15", "100nF", "NRST", "GND", b)
     r("R7", "10k", "BOOT0_SWCLK", "GND", b)
     r("R8", "1k", "LED_STAT_R", "LED_STAT", b)
-    led("D3", "STATUS blue", "LED_STAT", "GND", b)
+    led("D3", "STATUS green", "LED_STAT", "GND", b)
 
     b = "Buttons and SWD"
     sw = "Button_Switch_SMD:SW_Push_1P1T_XKB_TS-1187A"
@@ -168,17 +163,18 @@ def build():
 
     # --- TMC2209 (Adafruit breakout circuit) --------------------------------
     b = "TMC2209"
-    s.add("U2", "ggsmdriver:TMC2209-LA", "TMC2209-LA",
+    s.add("U2", "ggsmdriver:TMC2209-LA", "TMC2209-LA-T",
           "Package_DFN_QFN:QFN-28-1EP_5x5mm_P0.5mm_EP3.35x3.35mm",
           {"VS": "VIN", "VCC_IO": "+3V3", "5VOUT": "TMC_5V",
            "VCP": "TMC_VCP", "CPI": "TMC_CPI", "CPO": "TMC_CPO",
-           "VREF": "GND", "CLK": "GND",  # VREF unused: current set over UART "SPREAD": "TMC_SPREAD",
+           "VREF": "GND", "CLK": "GND",  # VREF unused: current set over UART
+           "SPREAD": "TMC_SPREAD",
            "MS1_AD0": "GND", "MS2_AD1": "GND", "STDBY": "GND",
            "STEP": "TMC_STEP", "DIR": "TMC_DIR", "ENN": "TMC_EN",
            "PDN_UART": "TMC_UART", "DIAG": "TMC_DIAG",
            "OA1": "MOT_A1", "OA2": "MOT_A2", "OB1": "MOT_B1", "OB2": "MOT_B2",
            "BRA": "TMC_BRA", "BRB": "TMC_BRB", "GND": "GND", "EP": "GND"},
-          b, {"LCSC": "C465949"})  # INDEX unused
+          b, {"LCSC": "C2150710"})  # INDEX unused; -LA-T = -LA on tape & reel
     c("C16", "22nF 50V", "TMC_CPI", "TMC_CPO", b)
     c("C17", "220nF 50V", "TMC_VCP", "VIN", b)
     c("C18", "220nF 50V", "VIN", "GND", b)
@@ -188,16 +184,16 @@ def build():
     c("C21", "10uF", "TMC_5V", "GND", b, C0805)
     c("C22", "10uF", "+3V3", "GND", b, C0805)
     c("C23", "220nF", "+3V3", "GND", b)
-    r("R9", "0.05R 1W", "TMC_BRA", "GND", b, R1206, LCSC="C5185600")
-    r("R10", "0.05R 1W", "TMC_BRB", "GND", b, R1206, LCSC="C5185600")
+    r("R9", "0.05R 1W", "TMC_BRA", "GND", b, R1206, LCSC="C154645")
+    r("R10", "0.05R 1W", "TMC_BRB", "GND", b, R1206, LCSC="C154645")  # RALEC LR1206-21R050F4
     r("R12", "10k", "TMC_EN", "+3V3", b)  # driver off until MCU enables it
     s.add("JP1", "Jumper:SolderJumper_2_Open", "SPREAD",
           "Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm",
           {"A": "TMC_SPREAD", "B": "+3V3"}, b)
     r("R13", "1k", "TMC_TX", "TMC_UART", b)  # datasheet 2-pin UART; RX is direct
-    # Activity LEDs as on Adafruit: STEP yellow, DIR high red, DIR low green.
+    # Activity LEDs as on Adafruit: STEP (red here), DIR high red, DIR low green.
     r("R14", "20k", "TMC_STEP", "LED_STEP", b)
-    led("D4", "STEP yellow", "LED_STEP", "GND", b)
+    led("D4", "STEP red", "LED_STEP", "GND", b)
     r("R15", "20k", "LED_DIRH", "GND", b)
     led("D5", "DIR red", "TMC_DIR", "LED_DIRH", b)
     r("R16", "20k", "+3V3", "LED_DIRL", b)
@@ -205,9 +201,14 @@ def build():
 
     # --- Motor and expansion ------------------------------------------------
     b = "Connectors"
+    # Power and motor form one 6-pole strip on the right edge: KF350 2P + 4P butted
+    # on the same 3.5 mm pitch (JLC stocks no 6P; KF350 blocks interlock).
+    # A1/A2 swapped so the motor tracks leave the TMC2209 without crossing.
+    s.add("J2", "Connector:Screw_Terminal_01x02", "VIN 9-24V GND",
+          "TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-2-3.5-H_1x02_P3.50mm_Horizontal",
+          {"1": "VIN", "2": "GND"}, b, {"LCSC": "C474892"})
     s.add("J3", "Connector:Screw_Terminal_01x04", "MOTOR A2 A1 B1 B2",
           "TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-4-3.5-H_1x04_P3.50mm_Horizontal",
-          # A1/A2 swapped so the motor tracks leave the TMC2209 without crossing
           {"1": "MOT_A2", "2": "MOT_A1", "3": "MOT_B1", "4": "MOT_B2"}, b,
           {"LCSC": "C42400616"})
     s.add("J4", "Connector:Conn_01x07_Pin", "EXP",
@@ -267,9 +268,8 @@ def layout(sch):
     for ref, x, y in (("H1", 3.5, 3.5), ("H2", W - 3.5, 3.5),
                       ("H3", 3.5, H - 3.5), ("H4", W - 3.5, H - 3.5)):
         b.place(ref, x, y)
-    b.edge("J1", "left", 15, 0)         # barrel jack, opening faces left
-    b.edge("J2", "left", 31, 270)       # VIN terminal, wires enter from the left
     b.edge("J3", "right", H / 2, 90)    # motor terminal, wires enter from the right
+    b.edge("J2", "right", 34.0, 90)      # VIN/GND right below; 1 mm gap keeps courtyards clear of J3 and H4
     b.edge("J5", "bottom", 30, 0)       # USB-C, opening faces down
     b.edge("J4", "top", 29, 90)         # expansion header
     b.place("U2", 39, 22.5, 270)      # TMC2209; motor and sense pins face J3, DIAG/UART face the MCU
@@ -296,6 +296,11 @@ def layout(sch):
         b.near(ref, target, pad)
 
     tmc_power_stage(b)
+    # TMC2209 support parts pinned where the 2026-10-19 routing worked (region() moves
+    # them whenever anything else changes, and the router then strands ENN).
+    for ref, x, y in (("C16", 37.5, 18.0), ("C17", 37.5, 15.5),
+                      ("R12", 46.0, 13.0), ("JP1", 46.0, 10.0)):
+        b.place(ref, x, y)
 
     blocks = {}
     for p in sch.parts:
@@ -315,10 +320,9 @@ def layout(sch):
         for dy in (-1, 0, 1):
             b.via(ux + dx, uy + dy, "GND")
     b.tie("U2", ["3", "9", "10", "13", "18", "20", "25"], "29")  # GND pins to the pad
-    # U1 pin 31 (+3V3, between GND and an unused pin) gets boxed in: give it its own via.
     # Freerouting leaves U1 pin 31 open (and hangs if given a via there): join it by hand.
-    b.track("+3V3", [(30.16, 24.75), (31.1, 24.75), (31.5, 24.35), (31.875, 23.975), (31.875, 19.7237)],
-            0.2, after_route=True)
+    b.track("+3V3", [(30.16, 24.75), (30.95, 24.75), (31.2, 24.62), (32.6, 24.62)], 0.2,
+            after_route=True)  # to C23 pad 1
 
     b.netclass("Power", ["VIN", "+5V", "VBUS", "TMC_5V"], track=0.5)  # +3V3 stays 0.2: MCU pins
     b.netclass("Motor", ["MOT_A1", "MOT_A2", "MOT_B1", "MOT_B2",

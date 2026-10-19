@@ -1,8 +1,8 @@
 # GGSMDriver
 
 A small, reusable stepper driver module: STM32G0B1 + TMC2209, one 9–24 V supply
-(barrel jack or 2-pole terminal), USB-C for serial and firmware upload, and a
-4-pole terminal for a 4-wire motor. The board is 4 layers, 55×45 mm, with every
+and a 4-wire motor on one row of screw terminals along one edge, and USB-C for serial
+and firmware upload. The board is 4 layers, 55×45 mm, with every
 part on top, for JLCPCB assembly.
 
 ## Layout
