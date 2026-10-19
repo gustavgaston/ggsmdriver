@@ -195,7 +195,7 @@ unchanged, plus `GGSTEPPER_DEBUG 0` from `nodharmonica_automato.ino`:
 | `HOMING_MAX_SEEK_STEPS` / `MAX_CONTACT_ATTEMPTS` | 32000 / 8 | |
 | `CONTACT_BACKOFF_STEPS` / `TOLERANCE_STEPS` / `CONFIRMATIONS` | 800 / 32 / 2 | |
 | `SGTHRS_VALUE` / `TCOOLTHRS_VALUE` | 100 / 0x000FFFFF | |
-| `GCONF_VALUE` | 0x000001C0 | `i_scale_analog` = 0, so the VREF trimmer is not the current reference |
+| `GCONF_VALUE` | 0x000001C0 | `i_scale_analog` = 0, so VREF (tied to GND) is not the current reference |
 | `CHOPCONF_BASE` / `TOFF` / `PWMCONF_VALUE` | 0x10000053 / 4 / 0xC10D0024 | |
 | `STEP_HIGH_US` | 5 | |
 | `DRIVER_SETTLE_MS` / `ENABLE_WARMUP_MS` | 200 / 150 | |
@@ -222,8 +222,8 @@ The Adafruit TMC2209 breakout schematic (R1/R2, 0.05 ohm, between BRA/BRB and
 GND) has the same sense resistors, so the same values give the same current on
 the old board, if the old board was that breakout. The Automato configurator
 also assumes 0.05 + 0.02 ohm. So there is no change in current from the board
-swap; nothing was changed. Because `GCONF` has `i_scale_analog` = 0, the board's
-VREF trimmer does not set the current in this configuration.
+swap; nothing was changed. Because `GCONF` has `i_scale_analog` = 0, VREF does not
+set the current; the board ties it to GND and has no trimmer.
 
 ## TODO(verify) list
 

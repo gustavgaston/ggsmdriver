@@ -49,7 +49,8 @@ Copied from the Adafruit breakout:
 - CPI–CPO 22 nF 50 V; VCP–VS 0.22 µF 50 V.
 - VS: 2 × 0.22 µF 50 V + 22 µF 50 V electrolytic.
 - 5VOUT 10 µF; VCC_IO 10 µF + 0.22 µF on `+3V3`.
-- VREF from a 10 k trimmer fed through 33 k from 5VOUT (current-limit pot).
+- VREF to GND: current is always set over UART (IRUN/IHOLD, `i_scale_analog` = 0), so no
+  trimmer (removed 2026-10-19; was 10 k fed through 33 k from 5VOUT as on Adafruit).
 - CLK to GND (internal clock).
 - SPREAD via solder jumper (open = StealthChop; UART overrides anyway).
 - STEP/DIR LEDs as on Adafruit.
@@ -64,7 +65,8 @@ Deviations (confirmed 2026-10-16):
 
 ### Connectors
 - J1 barrel jack DC-005 (5.5 mm, 2.0 mm pin), J2 2-pole terminal 3.5 mm (VIN, GND).
-- J3 4-pole terminal 3.5 mm: A1, A2, B1, B2.
+- J3 4-pole terminal 3.5 mm, pin 1 to 4: A2, A1, B1, B2 (matches the TMC2209 pin order,
+  so the motor tracks don't cross; coil A polarity only flips the direction).
 - J4 1×7 2.54 mm header: +5V, +3V3, GND, IO1, IO2, ENC_A, ENC_B.
 - J5 USB-C.
 
@@ -111,7 +113,6 @@ capacitors get picked from JLC Basic parts in milestone 2.
 | J2 | KF350-3.5-2P terminal | C474892 | Extended | THT |
 | J3 | KF350-3.5-4P terminal | C42400616 | Extended | THT |
 | J4 | 1×7 2.54 mm header PZ254V-11-07P | C492406 | Extended | THT |
-| RV1 | Bourns 3314J-1-103E 10 k trimmer | C36376 | Extended | |
 | R_sense ×2 | 0.05 Ω 1 W 1206 FORT CUM1206-15FR050 | C5185600 | Extended | |
 | C_bulk | 22 µF 50 V electrolytic 50CE22FS | C242075 | Extended | |
 | SW1, SW2 | TS-1187A-B-A-B tactile | C318884 | ? | BOOT, RESET |
@@ -136,8 +137,19 @@ capacitors get picked from JLC Basic parts in milestone 2.
   50×40 on 2 layers did not fit with single-sided assembly.
 - Layout (generated, in review): TMC2209 turned so its motor/sense pins face the motor
   terminal J3 on the right; jack and supply terminal on the left; USB-C bottom;
-  expansion header top; current trimmer RV1 bottom right. Motor and sense nets 0.8 mm,
+  expansion header top. Motor and sense nets 0.8 mm,
   power nets 0.5 mm, signals 0.2 mm. 3×3 vias under the TMC2209 pad into the GND plane.
+
+## Confirmed 2026-10-19 (TMC2209 area rework)
+
+- Trimmer RV1 and its 33 k feed removed; VREF to GND (current set over UART only).
+- TMC2209 area laid out by hand after the Adafruit breakout: short wide (1 mm) motor tracks
+  straight to J3 right next to the chip, sense resistors and VS vias at the BRA/BRB and VS
+  pins, VS caps about 3 mm away joined through the In2.Cu VIN plane.
+- In2.Cu is now a VIN plane (In1.Cu stays GND).
+- J3 pin order is A2, A1, B1, B2.
+- Track widths now really apply (motor/sense 0.8-1 mm, power 0.5 mm, +3V3 and signals
+  0.2 mm); before this every track was routed at 0.2 mm.
 
 ## Confirmed 2026-10-17 (firmware)
 

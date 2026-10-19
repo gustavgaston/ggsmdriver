@@ -172,7 +172,7 @@ def build():
           "Package_DFN_QFN:QFN-28-1EP_5x5mm_P0.5mm_EP3.35x3.35mm",
           {"VS": "VIN", "VCC_IO": "+3V3", "5VOUT": "TMC_5V",
            "VCP": "TMC_VCP", "CPI": "TMC_CPI", "CPO": "TMC_CPO",
-           "VREF": "TMC_VREF", "CLK": "GND", "SPREAD": "TMC_SPREAD",
+           "VREF": "GND", "CLK": "GND",  # VREF unused: current set over UART "SPREAD": "TMC_SPREAD",
            "MS1_AD0": "GND", "MS2_AD1": "GND", "STDBY": "GND",
            "STEP": "TMC_STEP", "DIR": "TMC_DIR", "ENN": "TMC_EN",
            "PDN_UART": "TMC_UART", "DIAG": "TMC_DIAG",
@@ -190,10 +190,6 @@ def build():
     c("C23", "220nF", "+3V3", "GND", b)
     r("R9", "0.05R 1W", "TMC_BRA", "GND", b, R1206, LCSC="C5185600")
     r("R10", "0.05R 1W", "TMC_BRB", "GND", b, R1206, LCSC="C5185600")
-    r("R11", "33k", "TMC_5V", "TMC_POT", b)
-    s.add("RV1", "Device:R_Potentiometer_Trim", "10k current",
-          "Potentiometer_SMD:Potentiometer_Bourns_3314J_Vertical",
-          {"1": "TMC_POT", "2": "TMC_VREF", "3": "GND"}, b, {"LCSC": "C36376"})
     r("R12", "10k", "TMC_EN", "+3V3", b)  # driver off until MCU enables it
     s.add("JP1", "Jumper:SolderJumper_2_Open", "SPREAD",
           "Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm",
@@ -209,9 +205,10 @@ def build():
 
     # --- Motor and expansion ------------------------------------------------
     b = "Connectors"
-    s.add("J3", "Connector:Screw_Terminal_01x04", "MOTOR A1 A2 B1 B2",
+    s.add("J3", "Connector:Screw_Terminal_01x04", "MOTOR A2 A1 B1 B2",
           "TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-4-3.5-H_1x04_P3.50mm_Horizontal",
-          {"1": "MOT_A1", "2": "MOT_A2", "3": "MOT_B1", "4": "MOT_B2"}, b,
+          # A1/A2 swapped so the motor tracks leave the TMC2209 without crossing
+          {"1": "MOT_A2", "2": "MOT_A1", "3": "MOT_B1", "4": "MOT_B2"}, b,
           {"LCSC": "C42400616"})
     s.add("J4", "Connector:Conn_01x07_Pin", "EXP",
           "Connector_PinHeader_2.54mm:PinHeader_1x07_P2.54mm_Vertical",
@@ -229,8 +226,43 @@ def build():
 W, H = 55, 45
 
 
+def tmc_power_stage(b):
+    """Hand layout of the TMC2209 power side, after Adafruit's breakout: motor outputs as
+    short wide tracks straight to J3, a via to the VIN plane at each VS pin, a via at each
+    sense pin down to its sense resistor, VS caps beside the motor tracks. Coordinates are
+    for U2 at (39, 22.5) rotated 270 (pins 22-28 face J3) and J3 at the right edge."""
+    neck, wide = 0.25, 1.0  # pin pitch is 0.5 mm: leave each pin narrow, widen once clear
+    # Coil B: pin 1 (top side) and pin 26; coil A: pin 24 and pin 21 (bottom side).
+    b.track("MOT_B2", [(40.5, 20.05), (40.5, 18.8)], neck)
+    b.track("MOT_B2", [(40.5, 18.8), (41.5, 17.8), (42.05, 17.25), (49.97, 17.25)], wide)
+    b.track("MOT_B1", [(41.45, 22.0), (42.6, 22.0), (43.4, 21.9)], neck)
+    b.track("MOT_B1", [(43.4, 21.9), (44.5, 20.75), (49.97, 20.75)], wide)
+    b.track("MOT_A1", [(41.45, 23.0), (42.6, 23.0), (43.4, 23.1)], neck)
+    b.track("MOT_A1", [(43.4, 23.1), (44.5, 24.25), (49.97, 24.25)], wide)
+    b.track("MOT_A2", [(40.5, 24.95), (40.5, 26.2)], neck)
+    b.track("MOT_A2", [(40.5, 26.2), (41.5, 27.2), (42.05, 27.75), (49.97, 27.75)], wide)
+    # VS pins 28 and 22 straight down into the In2 VIN plane.
+    b.track("VIN", [(41.45, 21.0), (41.9, 21.0), (41.7, 19.6)], neck)
+    b.via(41.7, 19.6, "VIN")
+    b.track("VIN", [(41.45, 24.0), (41.9, 24.0), (41.7, 25.4)], neck)
+    b.via(41.7, 25.4, "VIN")
+    # Sense pins 27 (BRB) and 23 (BRA): a via each; the router takes them to R10 / R9.
+    b.track("TMC_BRB", [(41.45, 21.5), (42.2, 21.5), (42.7, 21.1)], neck)
+    b.via(42.7, 21.1, "TMC_BRB")
+    b.track("TMC_BRA", [(41.45, 23.5), (42.2, 23.5), (42.7, 23.9)], neck)
+    b.via(42.7, 23.9, "TMC_BRA")
+    b.place("R10", 43.9, 15.4)        # BRB sense, above coil B
+    b.place("R9", 43.9, 31.0)         # BRA sense, below coil A
+    b.place("C19", 44.6, 19.0)        # VS caps between the motor tracks
+    b.place("C18", 44.6, 26.0)
+    # Keep packed parts off the motor tracks.
+    b.keepout(40.0, 16.5, 48.8, 18.2)
+    b.keepout(41.8, 20.0, 48.8, 25.0)
+    b.keepout(40.0, 26.6, 48.8, 28.5)
+
+
 def layout(sch):
-    b = Board(sch, W, H, layers=4, planes=["In1.Cu"])
+    b = Board(sch, W, H, layers=4, planes=["In1.Cu", "In2.Cu"])  # In1 GND, In2 VIN
 
     for ref, x, y in (("H1", 3.5, 3.5), ("H2", W - 3.5, 3.5),
                       ("H3", 3.5, H - 3.5), ("H4", W - 3.5, H - 3.5)):
@@ -246,15 +278,13 @@ def layout(sch):
     b.place("L1", 27, 8)
     b.place("U4", 18.5, 14)           # LDO
     b.place("C20", 39, 9)             # VS bulk electrolytic
-    b.place("RV1", 43, 34, 90)        # current trimmer, reachable at the edge
     b.place("SW1", 12.5, 24.5)        # BOOT
     b.place("SW2", 12.5, 40.5)        # RESET
 
     # Decoupling and support parts next to the pins they serve.
     for ref, target, pad in (
             ("C21", "U2", "8"), ("C16", "U2", "5"), ("C17", "U2", "6"),
-            ("C18", "U2", "22"), ("C19", "U2", "28"), ("C23", "U2", "15"),
-            ("C22", "U2", "15"), ("R9", "U2", "23"), ("R10", "U2", "27"),
+            ("C23", "U2", "15"), ("C22", "U2", "15"),
             ("R13", "U2", "14"), ("R12", "U2", "2"), ("JP1", "U2", "7"),
             ("C11", "U1", "6"), ("C13", "U1", "5"), ("C14", "U1", "4"),
             ("C15", "U1", "10"), ("R7", "U1", "36"), ("C12", "U1", "6"),
@@ -264,6 +294,8 @@ def layout(sch):
             ("U5", "J5", "A6"), ("R3", "J5", "A5"), ("R4", "J5", "B5"),
             ("D1", "J5", "A4"), ("C8", "J5", "A4")):
         b.near(ref, target, pad)
+
+    tmc_power_stage(b)
 
     blocks = {}
     for p in sch.parts:
@@ -283,13 +315,18 @@ def layout(sch):
         for dy in (-1, 0, 1):
             b.via(ux + dx, uy + dy, "GND")
     b.tie("U2", ["3", "9", "10", "13", "18", "20", "25"], "29")  # GND pins to the pad
-    b.fanout("U2", ["1", "21", "24", "26", "23", "27", "22", "28"])  # motor/sense/VS pins
+    # U1 pin 31 (+3V3, between GND and an unused pin) gets boxed in: give it its own via.
+    # Freerouting leaves U1 pin 31 open (and hangs if given a via there): join it by hand.
+    b.track("+3V3", [(30.16, 24.75), (31.1, 24.75), (31.5, 24.35), (31.875, 23.975), (31.875, 19.7237)],
+            0.2, after_route=True)
 
-    b.netclass("Power", ["VIN", "+5V", "+3V3", "VBUS", "TMC_5V"], track=0.5)
+    b.netclass("Power", ["VIN", "+5V", "VBUS", "TMC_5V"], track=0.5)  # +3V3 stays 0.2: MCU pins
     b.netclass("Motor", ["MOT_A1", "MOT_A2", "MOT_B1", "MOT_B2",
                          "TMC_BRA", "TMC_BRB"], track=0.8)
     b.zone("GND", layers=("F.Cu", "In1.Cu", "B.Cu"))
-    b.stitch("GND")              # a plane via at every GND pad before routing...
-    b.stitch_nets.append("GND")  # ...and again for any pad the router left on an island
+    b.zone("VIN", layers=("In2.Cu",))  # motor supply plane: VS pins, caps, jack, buck
+    for net in ("GND", "VIN"):
+        b.stitch(net)              # a plane via at every pad before routing...
+        b.stitch_nets.append(net)  # ...and again for any pad the router left on an island
     b.text(W / 2, H - 1.2, "GGSMDriver", 1.0, "B.SilkS")
     return b

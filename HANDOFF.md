@@ -28,13 +28,19 @@ checkout, with `GGSM` set to this repo's path (e.g. `GGSM=../GGSMDriver`).
   schematic, since pcbgen writes the board rules and netclasses into the .kicad_pro:
   `FREEROUTING_JAR=/path/freerouting-1.9.0.jar python3 -m pcbai.pcbgen $GGSM/hardware/ggsmdriver.py $GGSM/kicad --timeout 1500`
   Use Freerouting 1.9.0 (2.1.0 never stops on this board); it runs headless under
-  `xvfb-run` (apt `xvfb`, Java 17+). About 6 min. Output: `kicad/ggsmdriver.kicad_pcb`,
-  `kicad/reports/drc.txt`, `pcb-summary.txt`, `preview-*.png`.
-  Last run: 0 unrouted, no DRC errors; warnings left are silkscreen overlaps
-  (reference text) and 4 dangling fanout stubs. Routing varies a little run to run.
+  `xvfb-run` (apt `xvfb`, Java 17+). About 1 min. Output: `kicad/ggsmdriver.kicad_pcb`,
+  `kicad/reports/drc.txt`, `pcb-summary.txt`, `preview.svg`.
+  The TMC2209 power stage is hand-laid in `tmc_power_stage()` (locked `b.track()`s,
+  `b.keepout()`s), like the Adafruit breakout. U1 pin 31 (+3V3) is joined by an
+  `after_route=True` track, because Freerouting leaves it open and hangs if given a via
+  there; if routing changes, that track may need moving.
+  Last run (2026-10-19): 0 unrouted, no DRC errors; only silkscreen warnings.
+  Freerouting is chaotic: small design changes can make it hang until the timeout.
 - Gustav's M3 review (2026-10-16): layout is fine as a practice run. He wants to
   rework routing, some placement and the silkscreen **later**; we may come back,
   change `layout()` and regenerate PCB and fab files then.
+- 2026-10-19 rework (Gustav): VREF trimmer removed, TMC2209 area hand-laid, track
+  widths fixed, J3 next to the chip. Silkscreen cleanup still open.
 - Fab files (milestone 4): `python3 -m pcbai.fab $GGSM/hardware/ggsmdriver.py $GGSM/kicad`
   writes `kicad/fab/ggsmdriver-gerbers.zip`, `-bom.csv`, `-cpl.csv` for JLCPCB
   (BOM from the `LCSC` fields in the .py). Rerun after any PCB regeneration.
@@ -44,7 +50,7 @@ checkout, with `GGSM` set to this repo's path (e.g. `GGSM=../GGSMDriver`).
   (arm-none-eabi-gcc 13.2; ~61 KB flash). CubeIDE `.project/.cproject` adapted from ST's
   template, never opened in CubeIDE. Nothing run on hardware yet. Open items are the
   `TODO(verify)` list in `firmware/README.md`. Current: IRUN=IHOLD=3, VSENSE=1 with
-  0.05 Ω ≈ 0.23 A RMS; VREF trimmer has no effect (GCONF i_scale_analog=0).
+  0.05 Ω ≈ 0.23 A RMS; no VREF trimmer (VREF to GND, GCONF i_scale_analog=0).
 - Files are KiCad 7 format (cloud container has KiCad 7.0.11 via apt; no newer
   KiCad reachable). KiCad 10 opens and upgrades them. KiCad 7's CLI has no ERC:
   the generator checks connectivity via the exported netlist plus a structural
