@@ -21,7 +21,7 @@ Milestone 1, 2026-10-16. All confirmed by Gustav.
 - `VIN` (9–24 V) = 2-pole terminal → TMC2209 VS, buck input.
 - Buck TPS54202 (4.5–28 V in, 500 kHz) → `+5V`, using TI's 5 V reference
   design: 15 µH, 2 × 22 µF 25 V out, 10 µF 50 V + 0.1 µF in, 0.1 µF BOOT,
-  FB 100 k / 13 k (5.18 V) with 75 pF across the top resistor, EN left to its pull-up.
+  FB 100 k / 13 k (5.18 V) with 100 pF across the top resistor (was 75 pF, Extended), EN left to its pull-up.
 - USB VBUS → Schottky → `+5V` (diode-OR as on BTT EBB36: when VIN is
   present the buck wins and the diode stops back-feeding the PC).
 - `+5V` → XC6206P332 LDO (200 mA) → `+3V3` (MCU, TMC2209 VCC_IO, LEDs, header).
@@ -102,20 +102,20 @@ capacitors get picked from JLC Basic parts in milestone 2.
 
 | Ref | Part | LCSC | JLC type | Note |
 |---|---|---|---|---|
-| U1 | STM32G0B1CBT6 | C2847904 | ? | 137 in stock at LCSC |
+| U1 | STM32G0B1CBT6 | C2847904 | Extended | |
 | U2 | TMC2209-LA-T (tape & reel of -LA; -LA C465949 out of stock) | C2150710 | Extended | |
-| U3 | TPS54202DDCR | C191884 | ? | 230k in stock |
+| U3 | TPS54202DDCR | C191884 | Extended | |
 | L1 | 15 µH 2.5 A SMNR6045-150MT | C467142 | Extended | 6×6 mm |
 | U4 | XC6206P332MR-G | C5446 | Basic | |
 | D1 | SS14 (VBUS OR-diode) | C2480 | Basic | |
 | U5 | USBLC6-2SC6 | C7519 | Extended | |
 | J5 | USB-C HRO TYPE-C-31-M-12 | C165948 | Extended | |
 | J3 | KF128-2.54-6P terminal, 8 A, 18-26 AWG (KiCad footprint Phoenix MPT-0,5-6-2.54) | C474924 | Extended | THT |
-| J4 | 1×7 2.54 mm header PZ254V-11-07P | C492406 | Extended | THT |
+| J4 | 1×7 2.54 mm header | none | hand-soldered | not in JLC BOM |
 | R_sense ×2 | 0.05 Ω 1 W 1206 RALEC LR1206-21R050F4 (CUM1206 out of stock) | C154645 | Extended | |
-| LEDs | 0603 red KT-0603R (PWR, STEP, DIR high) / green KT-0603G (STATUS, DIR low) | C2286 / C12624 | Basic / Extended | |
+| LEDs ×5 | 0603 red KT-0603R (PWR, STATUS, STEP, DIR high, DIR low) | C2286 | Basic | |
 | C_bulk | 22 µF 50 V electrolytic Lelon VES220M1HTR-0605 | C176676 | Extended | |
-| SW1, SW2 | TS-1187A-B-A-B tactile | C318884 | ? | BOOT, RESET |
+| SW1, SW2 | TS-1187A-B-A-B tactile | C318884 | Basic | BOOT, RESET |
 
 ## Confirmed 2026-10-16 (milestone 1 review)
 
@@ -181,6 +181,16 @@ capacitors get picked from JLC Basic parts in milestone 2.
   JLC's calculator), through the USBLC6 ESD pads (flow-through, U5 beside U1). The 0.15 mm
   gap is allowed only between D+ and D- (`kicad/ggsmdriver.kicad_dru`). USB is full speed only.
 - U1 pins 30 (GND) and 31 (+3V3) sit inside the pair and fan out to vias under the MCU body.
+
+## 2026-10-20 (Extended-part pass, Gustav: every Extended part costs $3)
+
+- All LEDs red C2286 (Basic). J4 header has no LCSC number, so it stays out of the JLC
+  BOM/CPL and is hand-soldered.
+- C16 22 nF -> Samsung CL10B223KB8NNNC C21122 (Basic, same spec).
+- C17, C18, C19, C23 220 nF -> 100 nF 50 V C14663 (Basic), the TMC2209 datasheet value
+  for VCP, VS and VCC_IO.
+- C4 buck feed-forward 75 pF -> 100 pF C0G C14858 (Basic), nearest Basic value.
+- Still Extended (no Basic equivalent found): U1, U2, U3, U5, L1, J3, J5, R9/R10, C20.
 
 ## Confirmed 2026-10-17 (firmware)
 

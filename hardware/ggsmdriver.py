@@ -23,13 +23,13 @@ C1206 = "Capacitor_SMD:C_1206_3216Metric"
 R1206 = "Resistor_SMD:R_1206_3216Metric"
 LED0603 = "LED_SMD:LED_0603_1608Metric"
 
-# JLC/LCSC numbers for generic parts, by value (checked 2026-10-16).
+# JLC/LCSC numbers for generic parts, by value (checked 2026-10-16; all Basic since 2026-10-20).
 LCSC = {
     "5.1k": "C23186", "1M": "C22935", "1k": "C21190", "10k": "C25804",
     "100k": "C25803", "13k": "C22797", "33k": "C4216", "20k": "C4184",
     "100nF": "C14663", "100nF 50V": "C14663", "10nF": "C57112",
-    "22nF 50V": "C77571", "220nF": "C64705", "220nF 50V": "C64705",
-    "1uF": "C15849", "75pF": "C1681", "4.7uF": "C1779", "10uF": "C15850",
+    "22nF 50V": "C21122",
+    "1uF": "C15849", "100pF": "C14858", "4.7uF": "C1779", "10uF": "C15850",
     "10uF 50V": "C13585", "22uF 25V": "C12891",
     # LEDs: all red KT-0603R, the one in-stock JLC Basic colour (Gustav, 2026-10-20).
     "PWR red": "C2286", "STATUS red": "C2286", "STEP red": "C2286",
@@ -93,7 +93,7 @@ def build():
     s.add("L1", "Device:L", "15uH", "Inductor_SMD:L_Bourns_SRN6045TA",
           {"1": "BUCK_SW", "2": "+5V"}, b, {"LCSC": "C467142"})
     r("R1", "100k", "+5V", "BUCK_FB", b)
-    c("C4", "75pF", "+5V", "BUCK_FB", b)
+    c("C4", "100pF", "+5V", "BUCK_FB", b)  # feed-forward; 100 pF is the nearest Basic C0G
     r("R2", "13k", "BUCK_FB", "GND", b)  # JLC Basic; gives 5.18 V
     c("C5", "22uF 25V", "+5V", "GND", b, C1206)
     c("C6", "22uF 25V", "+5V", "GND", b, C1206)
@@ -175,14 +175,14 @@ def build():
            "BRA": "TMC_BRA", "BRB": "TMC_BRB", "GND": "GND", "EP": "GND"},
           b, {"LCSC": "C2150710"})  # INDEX unused; -LA-T = -LA on tape & reel
     c("C16", "22nF 50V", "TMC_CPI", "TMC_CPO", b)
-    c("C17", "220nF 50V", "TMC_VCP", "VIN", b)
-    c("C18", "220nF 50V", "VIN", "GND", b)
-    c("C19", "220nF 50V", "VIN", "GND", b)
+    c("C17", "100nF 50V", "TMC_VCP", "VIN", b)  # 100 nF per TMC2209 datasheet, Basic
+    c("C18", "100nF 50V", "VIN", "GND", b)
+    c("C19", "100nF 50V", "VIN", "GND", b)
     s.add("C20", "Device:C_Polarized", "22uF 50V", "Capacitor_SMD:CP_Elec_6.3x5.4",
           {"1": "VIN", "2": "GND"}, b, {"LCSC": "C176676"})  # Lelon VES220M1HTR-0605
     c("C21", "10uF", "TMC_5V", "GND", b, C0805)
     c("C22", "10uF", "+3V3", "GND", b, C0805)
-    c("C23", "220nF", "+3V3", "GND", b)
+    c("C23", "100nF", "+3V3", "GND", b)
     r("R9", "0.05R 1W", "TMC_BRA", "GND", b, R1206, LCSC="C154645")
     r("R10", "0.05R 1W", "TMC_BRB", "GND", b, R1206, LCSC="C154645")  # RALEC LR1206-21R050F4
     r("R12", "10k", "TMC_EN", "+3V3", b)  # driver off until MCU enables it
@@ -209,7 +209,7 @@ def build():
     s.add("J4", "Connector:Conn_01x07_Pin", "EXP",
           "Connector_PinHeader_2.54mm:PinHeader_1x07_P2.54mm_Vertical",
           {"1": "+5V", "2": "+3V3", "3": "GND", "4": "IO1", "5": "IO2",
-           "6": "ENC_A", "7": "ENC_B"}, b, {"LCSC": "C492406"})
+           "6": "ENC_A", "7": "ENC_B"}, b)  # no LCSC: hand-soldered, left out of JLC assembly
     for i in range(1, 5):
         s.add(f"H{i}", "Mechanical:MountingHole", "M3",
               "MountingHole:MountingHole_3.2mm_M3", {}, b)

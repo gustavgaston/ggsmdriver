@@ -6,4 +6,4 @@ stitched VIN: 0 vias, 0 unrouted
 DRC: 3 x silk_edge_clearance, 33 x silk_over_copper, 37 x silk_overlap, 1 x via_dangling
 unconnected items: 0
 preview: reports/preview.svg
-runtime: 54 s
+runtime: 99 s

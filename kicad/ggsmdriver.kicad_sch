@@ -2351,12 +2351,12 @@
     (dnp no)
     (uuid "b678d97d-bd16-52d9-8d5e-06aa6f98a817")
     (property "Reference" "C4" (at 172.72 26.67 0) (effects (font (size 1.27 1.27))))
-    (property "Value" "75pF" (at 172.72 29.21 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "100pF" (at 172.72 29.21 0) (effects (font (size 1.27 1.27))))
     (property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
       (at 172.72 43.18 0)
       (effects (font (size 1.27 1.27)) hide))
     (property "Datasheet" "~" (at 172.72 43.18 0) (effects (font (size 1.27 1.27)) hide))
-    (property "LCSC" "C1681" (at 172.72 43.18 0) (effects (font (size 1.27 1.27)) hide))
+    (property "LCSC" "C14858" (at 172.72 43.18 0) (effects (font (size 1.27 1.27)) hide))
     (pin "1" (uuid "5ff2ac63-16a4-5afb-ac6d-a93c441b87b2"))
     (pin "2" (uuid "94560572-ed23-5cd6-abda-fbf202f97109"))
     (instances
@@ -3321,12 +3321,12 @@
     (dnp no)
     (uuid "0f13ab27-fb8f-5f51-ab36-a6bb924be7fb")
     (property "Reference" "D3" (at 170.18 118.11 0) (effects (font (size 1.27 1.27))))
-    (property "Value" "STATUS green" (at 170.18 120.65 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "STATUS red" (at 170.18 120.65 0) (effects (font (size 1.27 1.27))))
     (property "Footprint" "LED_SMD:LED_0603_1608Metric"
       (at 167.64 127 0)
       (effects (font (size 1.27 1.27)) hide))
     (property "Datasheet" "~" (at 167.64 127 0) (effects (font (size 1.27 1.27)) hide))
-    (property "LCSC" "C12624" (at 167.64 127 0) (effects (font (size 1.27 1.27)) hide))
+    (property "LCSC" "C2286" (at 167.64 127 0) (effects (font (size 1.27 1.27)) hide))
     (pin "1" (uuid "3e19d8d3-44ba-53bb-8b78-cbe30b4ad342"))
     (pin "2" (uuid "4bffee4b-d254-5531-b8e9-933fce6b919a"))
     (instances
@@ -3680,7 +3680,7 @@
       (at 406.4 139.7 0)
       (effects (font (size 1.27 1.27)) hide))
     (property "Datasheet" "~" (at 406.4 139.7 0) (effects (font (size 1.27 1.27)) hide))
-    (property "LCSC" "C77571" (at 406.4 139.7 0) (effects (font (size 1.27 1.27)) hide))
+    (property "LCSC" "C21122" (at 406.4 139.7 0) (effects (font (size 1.27 1.27)) hide))
     (pin "1" (uuid "e2de7960-4e1c-5c09-aa8f-34ec0851a5ee"))
     (pin "2" (uuid "722a02a5-513e-5a22-86b5-7c7610361df9"))
     (instances
@@ -3703,12 +3703,12 @@
     (dnp no)
     (uuid "1cb7bb9a-41af-5608-97a0-55a98eb3b9f9")
     (property "Reference" "C17" (at 416.56 118.11 0) (effects (font (size 1.27 1.27))))
-    (property "Value" "220nF 50V" (at 416.56 120.65 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "100nF 50V" (at 416.56 120.65 0) (effects (font (size 1.27 1.27))))
     (property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
       (at 416.56 139.7 0)
       (effects (font (size 1.27 1.27)) hide))
     (property "Datasheet" "~" (at 416.56 139.7 0) (effects (font (size 1.27 1.27)) hide))
-    (property "LCSC" "C64705" (at 416.56 139.7 0) (effects (font (size 1.27 1.27)) hide))
+    (property "LCSC" "C14663" (at 416.56 139.7 0) (effects (font (size 1.27 1.27)) hide))
     (pin "1" (uuid "2429a2b6-1d8d-53f9-974e-af0662b22c0c"))
     (pin "2" (uuid "0ffa0041-a3ec-5d92-8dc8-bd7b23ca5297"))
     (instances
@@ -3731,12 +3731,12 @@
     (dnp no)
     (uuid "2e7c5ef2-ccc0-5c80-925e-a4dc40948b60")
     (property "Reference" "C18" (at 426.72 118.11 0) (effects (font (size 1.27 1.27))))
-    (property "Value" "220nF 50V" (at 426.72 120.65 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "100nF 50V" (at 426.72 120.65 0) (effects (font (size 1.27 1.27))))
     (property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
       (at 426.72 134.62 0)
       (effects (font (size 1.27 1.27)) hide))
     (property "Datasheet" "~" (at 426.72 134.62 0) (effects (font (size 1.27 1.27)) hide))
-    (property "LCSC" "C64705" (at 426.72 134.62 0) (effects (font (size 1.27 1.27)) hide))
+    (property "LCSC" "C14663" (at 426.72 134.62 0) (effects (font (size 1.27 1.27)) hide))
     (pin "1" (uuid "0bc564ad-e680-5505-89af-b529a990841d"))
     (pin "2" (uuid "f09101e5-0fba-58ce-80a6-aeda56438815"))
     (instances
@@ -3759,12 +3759,12 @@
     (dnp no)
     (uuid "c4d5c430-0f65-5749-8164-c2979e713b8d")
     (property "Reference" "C19" (at 436.88 118.11 0) (effects (font (size 1.27 1.27))))
-    (property "Value" "220nF 50V" (at 436.88 120.65 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "100nF 50V" (at 436.88 120.65 0) (effects (font (size 1.27 1.27))))
     (property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
       (at 436.88 134.62 0)
       (effects (font (size 1.27 1.27)) hide))
     (property "Datasheet" "~" (at 436.88 134.62 0) (effects (font (size 1.27 1.27)) hide))
-    (property "LCSC" "C64705" (at 436.88 134.62 0) (effects (font (size 1.27 1.27)) hide))
+    (property "LCSC" "C14663" (at 436.88 134.62 0) (effects (font (size 1.27 1.27)) hide))
     (pin "1" (uuid "8c98940e-006c-57fd-bad5-b1cd5ace775c"))
     (pin "2" (uuid "22017c33-53f6-5cb1-a604-6a5392c850bc"))
     (instances
@@ -3871,12 +3871,12 @@
     (dnp no)
     (uuid "b542a3a8-06ae-5391-945a-5140cbbf2601")
     (property "Reference" "C23" (at 477.52 118.11 0) (effects (font (size 1.27 1.27))))
-    (property "Value" "220nF" (at 477.52 120.65 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "100nF" (at 477.52 120.65 0) (effects (font (size 1.27 1.27))))
     (property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
       (at 477.52 134.62 0)
       (effects (font (size 1.27 1.27)) hide))
     (property "Datasheet" "~" (at 477.52 134.62 0) (effects (font (size 1.27 1.27)) hide))
-    (property "LCSC" "C64705" (at 477.52 134.62 0) (effects (font (size 1.27 1.27)) hide))
+    (property "LCSC" "C14663" (at 477.52 134.62 0) (effects (font (size 1.27 1.27)) hide))
     (pin "1" (uuid "12d2edfa-1f04-55a8-8706-f39851af53aa"))
     (pin "2" (uuid "e0d5deaf-5346-55ea-bd0a-fe1d50b3100b"))
     (instances
@@ -4122,7 +4122,7 @@
     (dnp no)
     (uuid "b5f389cc-f6bf-5927-a166-b41f6fc168de")
     (property "Reference" "D5" (at 459.74 171.45 0) (effects (font (size 1.27 1.27))))
-    (property "Value" "DIR red" (at 459.74 173.99 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "DIR+ red" (at 459.74 173.99 0) (effects (font (size 1.27 1.27))))
     (property "Footprint" "LED_SMD:LED_0603_1608Metric"
       (at 459.74 180.34 0)
       (effects (font (size 1.27 1.27)) hide))
@@ -4178,12 +4178,12 @@
     (dnp no)
     (uuid "7371bf14-a43c-5f02-ac62-6fe3828f20d9")
     (property "Reference" "D6" (at 355.6 212.09 0) (effects (font (size 1.27 1.27))))
-    (property "Value" "DIR green" (at 355.6 214.63 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "DIR- red" (at 355.6 214.63 0) (effects (font (size 1.27 1.27))))
     (property "Footprint" "LED_SMD:LED_0603_1608Metric"
       (at 355.6 220.98 0)
       (effects (font (size 1.27 1.27)) hide))
     (property "Datasheet" "~" (at 355.6 220.98 0) (effects (font (size 1.27 1.27)) hide))
-    (property "LCSC" "C12624" (at 355.6 220.98 0) (effects (font (size 1.27 1.27)) hide))
+    (property "LCSC" "C2286" (at 355.6 220.98 0) (effects (font (size 1.27 1.27)) hide))
     (pin "1" (uuid "427f2e42-8aea-5160-bbbd-39f3fc7cab9b"))
     (pin "2" (uuid "c8f729b8-fa7d-5034-84db-b7dd43a4d8af"))
     (instances
@@ -4259,7 +4259,6 @@
       (at 43.18 276.86 0)
       (effects (font (size 1.27 1.27)) hide))
     (property "Datasheet" "~" (at 43.18 276.86 0) (effects (font (size 1.27 1.27)) hide))
-    (property "LCSC" "C492406" (at 43.18 276.86 0) (effects (font (size 1.27 1.27)) hide))
     (pin "1" (uuid "d5c61eb2-e5b9-5686-b692-6fe22eab4516"))
     (pin "2" (uuid "2e3c2883-b487-551c-ac9e-814bc9b6497c"))
     (pin "3" (uuid "71d06ae4-9046-560b-b807-d476d9cdc80e"))
