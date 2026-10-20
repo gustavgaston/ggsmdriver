@@ -8,6 +8,7 @@ __pycache__/
 *.lck
 *-backups/
 fp-info-cache
+*.rpt
 _autosave-*
 \#auto_saved_files\#
 
