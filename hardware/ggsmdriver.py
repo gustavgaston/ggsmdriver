@@ -23,13 +23,13 @@ C1206 = "Capacitor_SMD:C_1206_3216Metric"
 R1206 = "Resistor_SMD:R_1206_3216Metric"
 LED0603 = "LED_SMD:LED_0603_1608Metric"
 
-# JLC/LCSC numbers for generic parts, by value (checked 2026-10-16; all Basic since 2026-10-20).
+# JLC/LCSC numbers for generic parts, by value (checked 2026-10-16; Basic where one exists).
 LCSC = {
     "5.1k": "C23186", "1M": "C22935", "1k": "C21190", "10k": "C25804",
     "100k": "C25803", "13k": "C22797", "33k": "C4216", "20k": "C4184",
     "100nF": "C14663", "100nF 50V": "C14663", "10nF": "C57112",
     "22nF 50V": "C21122",
-    "1uF": "C15849", "100pF": "C14858", "4.7uF": "C1779", "10uF": "C15850",
+    "1uF": "C15849", "75pF": "C1681", "4.7uF": "C1779", "10uF": "C15850",
     "10uF 50V": "C13585", "22uF 25V": "C12891",
     # LEDs: all red KT-0603R, the one in-stock JLC Basic colour (Gustav, 2026-10-20).
     "PWR red": "C2286", "STATUS red": "C2286", "STEP red": "C2286",
@@ -93,7 +93,7 @@ def build():
     s.add("L1", "Device:L", "15uH", "Inductor_SMD:L_Bourns_SRN6045TA",
           {"1": "BUCK_SW", "2": "+5V"}, b, {"LCSC": "C467142"})
     r("R1", "100k", "+5V", "BUCK_FB", b)
-    c("C4", "100pF", "+5V", "BUCK_FB", b)  # feed-forward; 100 pF is the nearest Basic C0G
+    c("C4", "75pF", "+5V", "BUCK_FB", b)  # feed-forward, TI EVM value (Extended, kept on purpose)
     r("R2", "13k", "BUCK_FB", "GND", b)  # JLC Basic; gives 5.18 V
     c("C5", "22uF 25V", "+5V", "GND", b, C1206)
     c("C6", "22uF 25V", "+5V", "GND", b, C1206)
@@ -338,16 +338,23 @@ def layout(sch):
     for p in sch.parts:
         if p.footprint and b._rects.get(p.ref) is None:
             blocks.setdefault(p.block, []).append(p.ref)
-    # Indicator LEDs in one column at the top-right, labelled; their resistors below J3.
+    # Indicator LEDs in one column on the left: resistor outboard, label inboard. Each pair
+    # is turned so the shared pads face each other and joined by a short hand track.
     leds = ["R6", "D2", "R8", "D3", "R14", "D4", "R15", "D5", "R16", "D6"]
-    for i, (ref, label) in enumerate((("D2", "PWR"), ("D3", "STAT"), ("D4", "STEP"),
-                                      ("D5", "DIR+"), ("D6", "DIR-"))):
-        y = 8.0 + 1.8 * i
-        b.place(ref, 49.9, y)
-        b.board.FindFootprintByReference(ref).Reference().SetVisible(False)
-        b.text(53.1, y, label, 0.8)
-    for ref, x, y in (("R6", 39.7, 34.6), ("R8", 39.7, 36.6), ("R14", 42.9, 34.6), ("R15", 46.1, 34.6), ("R16", 46.1, 36.6),):
-        b.place(ref, x, y)
+    LED_Y0, LED_PITCH = 10.0, 1.8
+    for i, (d, label, r, d_rot, r_rot, net) in enumerate((
+            ("D2", "PWR", "R6", 180, 0, "LED_PWR"),
+            ("D3", "STAT", "R8", 180, 0, "LED_STAT"),
+            ("D4", "STEP", "R14", 180, 0, "LED_STEP"),
+            ("D5", "DIR+", "R15", 0, 180, "LED_DIRH"),
+            ("D6", "DIR-", "R16", 180, 0, "LED_DIRL"))):
+        y = LED_Y0 + LED_PITCH * i
+        b.place(d, 5.9, y, d_rot)
+        b.place(r, 2.8, y, r_rot)
+        for ref in (d, r):  # no room for designators; the label says what it is
+            b.board.FindFootprintByReference(ref).Reference().SetVisible(False)
+        b.text(9.3, y, label, 0.8)
+        b.track(net, [(3.625, y), (5.1125, y)], 0.25)
     b.region(16, 3, 35, 19, [r for r in blocks["Buck 5V"] + blocks["LDO 3V3"] if r not in leds])
     b.region(32, 4, 48, 38, [r for r in blocks["TMC2209"] if r not in leds])
     b.region(16, 17, 34, 35, [r for r in blocks["MCU"] if r not in leds])
@@ -371,4 +378,9 @@ def layout(sch):
         b.stitch(net)              # a plane via at every pad before routing...
         b.stitch_nets.append(net)  # ...and again for any pad the router left on an island
     b.text(W / 2, H - 1.2, "GGSMDriver", 1.0, "B.SilkS")
+    for ref in ("H1", "H2", "H3", "H4"):  # mounting holes need no designator
+        b.board.FindFootprintByReference(ref).Reference().SetVisible(False)
+    crowded = b.tidy_silk(fixed={"C12": (15.85, 27.65, 0)})  # boxed in by SW1, C15 and U1
+    if crowded:
+        print("silk: no clear spot for", ", ".join(crowded))
     return b

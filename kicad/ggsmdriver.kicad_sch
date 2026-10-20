@@ -2351,12 +2351,12 @@
     (dnp no)
     (uuid "b678d97d-bd16-52d9-8d5e-06aa6f98a817")
     (property "Reference" "C4" (at 172.72 26.67 0) (effects (font (size 1.27 1.27))))
-    (property "Value" "100pF" (at 172.72 29.21 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "75pF" (at 172.72 29.21 0) (effects (font (size 1.27 1.27))))
     (property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
       (at 172.72 43.18 0)
       (effects (font (size 1.27 1.27)) hide))
     (property "Datasheet" "~" (at 172.72 43.18 0) (effects (font (size 1.27 1.27)) hide))
-    (property "LCSC" "C14858" (at 172.72 43.18 0) (effects (font (size 1.27 1.27)) hide))
+    (property "LCSC" "C1681" (at 172.72 43.18 0) (effects (font (size 1.27 1.27)) hide))
     (pin "1" (uuid "5ff2ac63-16a4-5afb-ac6d-a93c441b87b2"))
     (pin "2" (uuid "94560572-ed23-5cd6-abda-fbf202f97109"))
     (instances

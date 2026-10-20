@@ -191,14 +191,19 @@ capacitors get picked from JLC Basic parts in milestone 2.
   breakout (0.22 uF/50V on VCP, VS x2, VDD). The TMC2209 datasheet (rev 1.08, 2.2) gives
   100 nF for VCP; it names no value for the VS ceramics or VCC_IO, and Trinamic's own
   TMC2209-BOB uses 100 nF 50 V parts.
-- C4 buck feed-forward 75 pF -> 100 pF C0G C14858 (Basic). 75 pF and the whole buck
+- C4 buck feed-forward briefly 100 pF; back to 75 pF C1681 (Gustav: keep the TI value,
+  accept the $3). 75 pF and the whole buck
   (100 k/13.3 k, 15 uH, 2x22 uF) come from TI's TPS54202 EVM guide. With 100 k/13 k the
   Cff zero/pole move from 21/184 kHz to 16/138 kHz: phase boost stays within about 3 deg
   over 30-80 kHz, loop gain near crossover rises up to about 2 dB (crossover up about 25%).
   Calculated, not simulated or measured.
-- LEDs in one column at the top-right (PWR, STAT, STEP, DIR+, DIR-, labelled on silk,
-  reference text hidden); their resistors sit below J3.
-- Still Extended (no Basic equivalent found): U1, U2, U3, U5, L1, J3, J5, R9/R10, C20.
+- LEDs in one column on the left (Gustav: free space there, no signals around the TMC2209):
+  resistor outboard, LED, then a PWR/STAT/STEP/DIR+/DIR- silk label; their designators
+  are hidden. Each pair is turned so the shared pads face and joined by a hand track.
+- Silkscreen: pcbgen `tidy_silk()` sets all designators to 0.8 mm and moves each clear of
+  pads, silk and other designators (C12 placed by hand); mounting-hole refs hidden.
+  DRC is clean, silkscreen included.
+- Still Extended: U1, U2, U3, U5, L1, J3, J5, R9/R10, C20 (no Basic equivalent) and C4 (kept).
 
 ## Confirmed 2026-10-17 (firmware)
 
