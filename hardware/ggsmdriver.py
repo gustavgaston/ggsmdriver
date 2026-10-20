@@ -259,6 +259,42 @@ def tmc_power_stage(b):
     b.keepout(40.0, 25.6, 48.8, 27.1)
 
 
+def buck_and_usb(b):
+    """Hand-laid buck switch node and USB pair (2026-10-20 review)."""
+    # Buck: SW (U3 pin 2) straight into L1, 0.8 mm; VIN and GND pins to their planes.
+    b.track("BUCK_SW", [(21.14, 7.0), (23.825, 7.0)], 0.8)
+    b.track("VIN", [(21.14, 6.05), (21.6, 6.05), (22.0, 5.65), (22.0, 5.2)], 0.4)
+    b.via(22.0, 5.2, "VIN")
+    b.track("GND", [(21.14, 7.95), (21.6, 7.95), (22.0, 8.35), (22.0, 8.8)], 0.4)
+    b.via(22.0, 8.8, "GND")
+    # USB D+/D-: one pair on F.Cu over the In1 GND plane, 0.25 mm / 0.15 mm gap (about
+    # 90 ohm differential on JLC's 4-layer stackup, estimated), from U1 pins 34/33 through
+    # the USBLC6 ESD pads (flow-through) to the USB-C pins.
+    w = 0.25
+    b.track("USB_DP", [(30.16, 23.25), (33.6, 23.25), (33.85, 23.5), (33.85, 28.0),
+                       (30.75, 31.1), (30.75, 36.3)], w)
+    b.track("USB_DM", [(30.16, 23.75), (31.7, 23.75), (31.95, 24.0), (31.95, 27.6),
+                       (30.25, 29.3), (30.25, 36.3)], w)
+    b.track("USB_DM", [(30.25, 35.7), (29.25, 35.7), (29.25, 36.3)], w)   # A7 to B7, above
+    b.track("USB_DP", [(29.75, 37.3), (29.75, 37.9), (30.75, 37.9), (30.75, 37.3)], w)  # A6 to B6
+    b.place("U5", 32.9, 26.0, 90)     # ESD: D- through pins 6/1, D+ through pins 4/3
+    b.track("VBUS", [(32.9, 24.863), (32.9, 23.95)], 0.3)
+    b.via(32.9, 23.95, "VBUS")        # VBUS and GND pins sit between the pair: a via each
+    b.track("GND", [(32.9, 27.137), (32.75, 27.95)], 0.3)
+    b.via(32.75, 27.95, "GND")
+    b.track("VBUS", [(32.45, 36.3), (32.45, 35.4)], 0.3)
+    b.via(32.45, 35.4, "VBUS")        # the pair cuts USB-C VBUS pin A9 off from A4
+    b.place("R3", 28.2, 34.0)
+    b.place("R4", 35.5, 34.3)
+    b.keepout(30.9, 23.0, 34.3, 29.0)   # ESD chip and the pair beside U1
+    b.keepout(29.9, 29.0, 31.1, 36.0)   # the pair down to USB-C
+    # U1 pins 31 (+3V3) and 30 (GND) are boxed in by the pair: vias under the MCU body.
+    b.track("+3V3", [(30.16, 24.75), (29.25, 24.75), (28.55, 24.05)], 0.25)
+    b.via(28.55, 24.05, "+3V3")
+    b.track("GND", [(30.16, 25.25), (29.25, 25.25), (28.55, 25.95)], 0.25)
+    b.via(28.55, 25.95, "GND")
+
+
 def layout(sch):
     b = Board(sch, W, H, layers=4, planes=["In1.Cu", "In2.Cu"])  # In1 GND, In2 VIN
 
@@ -270,8 +306,8 @@ def layout(sch):
     b.edge("J4", "top", 29, 90)         # expansion header
     b.place("U2", 39, 22.5, 270)      # TMC2209; motor and sense pins face J3, DIAG/UART face the MCU
     b.place("U1", 26, 25)             # MCU
-    b.place("U3", 20, 7)              # buck
-    b.place("L1", 27, 8)
+    b.place("U3", 20, 7, 180)         # buck; SW pin faces L1
+    b.place("L1", 25.9, 7)
     b.place("U4", 18.5, 14)           # LDO
     b.place("C20", 39, 9)             # VS bulk electrolytic
     b.place("SW1", 12.5, 24.5)        # BOOT
@@ -292,6 +328,7 @@ def layout(sch):
         b.near(ref, target, pad)
 
     tmc_power_stage(b)
+    buck_and_usb(b)
     # TMC2209 support parts pinned where the 2026-10-19 routing worked (region() moves
     # them whenever anything else changes, and the router then strands ENN).
     for ref, x, y in (("C16", 37.5, 18.0), ("C17", 37.5, 15.5),
@@ -316,11 +353,9 @@ def layout(sch):
         for dy in (-1, 0, 1):
             b.via(ux + dx, uy + dy, "GND")
     b.tie("U2", ["3", "9", "10", "13", "18", "20", "25"], "29")  # GND pins to the pad
-    # Freerouting leaves U1 pin 31 open (and hangs if given a via there): join it by hand.
-    b.track("+3V3", [(30.16, 24.75), (30.95, 24.75), (31.2, 24.62), (32.6, 24.62)], 0.2,
-            after_route=True)  # to C23 pad 1
 
     b.netclass("Power", ["VIN", "+5V", "VBUS", "TMC_5V"], track=0.5)  # +3V3 stays 0.2: MCU pins
+    b.netclass("USB", ["USB_DP", "USB_DM"], track=0.25, clearance=0.15)
     b.netclass("Motor", ["MOT_A1", "MOT_A2", "MOT_B1", "MOT_B2",
                          "TMC_BRA", "TMC_BRB"], track=0.8)
     b.zone("GND", layers=("F.Cu", "In1.Cu", "B.Cu"))

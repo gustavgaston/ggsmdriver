@@ -172,6 +172,16 @@ capacitors get picked from JLC Basic parts in milestone 2.
   stock at JLC; fallback if not: Phoenix MPT 0,5/6-2,54, Mouser 651-1725698, hand-soldered,
   same footprint but only 26-20 AWG). Replaces the 2+2+2 KF350 3.5 mm blocks.
 
+## 2026-10-20 (track review, Gustav: "make the fixes")
+
+- Buck switch node hand-laid: U3 turned 180° so SW faces L1; 0.8 mm SW track about 2.7 mm
+  long; VIN and GND pins get their own plane vias.
+- USB D+/D- hand-laid as a pair on F.Cu over the In1 GND plane: 0.25 mm tracks, 0.15 mm gap
+  (about 90 ohm differential on JLC's standard 4-layer stackup by formula, not verified in
+  JLC's calculator), through the USBLC6 ESD pads (flow-through, U5 beside U1). The 0.15 mm
+  gap is allowed only between D+ and D- (`kicad/ggsmdriver.kicad_dru`). USB is full speed only.
+- U1 pins 30 (GND) and 31 (+3V3) sit inside the pair and fan out to vias under the MCU body.
+
 ## Confirmed 2026-10-17 (firmware)
 
 - Framework: STM32 HAL, as an STM32CubeIDE project in `firmware/` (plus a Makefile

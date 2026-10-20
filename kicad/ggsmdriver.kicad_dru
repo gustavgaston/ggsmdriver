@@ -1,0 +1,4 @@
+(version 1)
+(rule "netclass USB"
+  (condition "(A.NetName == 'USB_DP' || A.NetName == 'USB_DM') && (B.NetName == 'USB_DP' || B.NetName == 'USB_DM')")
+  (constraint clearance (min 0.15mm)))
