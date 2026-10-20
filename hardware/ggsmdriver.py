@@ -201,18 +201,12 @@ def build():
 
     # --- Motor and expansion ------------------------------------------------
     b = "Connectors"
-    # Power and motor share the right edge as three KF350 2P blocks (JLC stocks no 4P
-    # or 6P), about 1 mm apart so the footprint courtyards clear.
+    # Power and motor on one 6-pole 2.54 mm terminal, as on the Adafruit breakout.
     # A1/A2 swapped so the motor tracks leave the TMC2209 without crossing.
-    s.add("J2", "Connector:Screw_Terminal_01x02", "VIN 9-24V GND",
-          "TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-2-3.5-H_1x02_P3.50mm_Horizontal",
-          {"1": "VIN", "2": "GND"}, b, {"LCSC": "C474892"})
-    s.add("J3", "Connector:Screw_Terminal_01x02", "MOTOR A2 A1",
-          "TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-2-3.5-H_1x02_P3.50mm_Horizontal",
-          {"1": "MOT_A2", "2": "MOT_A1"}, b, {"LCSC": "C474892"})
-    s.add("J6", "Connector:Screw_Terminal_01x02", "MOTOR B1 B2",
-          "TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-2-3.5-H_1x02_P3.50mm_Horizontal",
-          {"1": "MOT_B1", "2": "MOT_B2"}, b, {"LCSC": "C474892"})
+    s.add("J3", "Connector:Screw_Terminal_01x06", "VIN GND A2 A1 B1 B2",
+          "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MPT-0,5-6-2.54_1x06_P2.54mm_Horizontal",
+          {"1": "VIN", "2": "GND", "3": "MOT_A2", "4": "MOT_A1", "5": "MOT_B1", "6": "MOT_B2"}, b,
+          {"LCSC": "C474924"})  # Cixi Kefa KF128-2.54-6P
     s.add("J4", "Connector:Conn_01x07_Pin", "EXP",
           "Connector_PinHeader_2.54mm:PinHeader_1x07_P2.54mm_Vertical",
           {"1": "+5V", "2": "+3V3", "3": "GND", "4": "IO1", "5": "IO2",
@@ -234,21 +228,22 @@ def tmc_power_stage(b):
     short wide tracks straight to J3, a via to the VIN plane at each VS pin, a via at each
     sense pin down to its sense resistor, VS caps beside the motor tracks. Coordinates are
     for U2 at (39, 22.5) rotated 270 (pins 22-28 face J3) and J3 at the right edge."""
+    TX = 51.4  # x of J3's pads
     neck, wide = 0.25, 1.0  # pin pitch is 0.5 mm: leave each pin narrow, widen once clear
     # Coil B: pin 1 (top side) and pin 26; coil A: pin 24 and pin 21 (bottom side).
     b.track("MOT_B2", [(40.5, 20.05), (40.5, 18.8)], neck)
-    b.track("MOT_B2", [(40.5, 18.8), (41.5, 17.8), (43.3, 16.0), (50.0, 16.0)], wide)
+    b.track("MOT_B2", [(40.5, 18.8), (40.61, 18.69), (TX, 18.69)], wide)
     b.track("MOT_B1", [(41.45, 22.0), (42.6, 22.0), (43.4, 21.9)], neck)
-    b.track("MOT_B1", [(43.4, 21.9), (45.8, 19.5), (50.0, 19.5)], wide)
+    b.track("MOT_B1", [(43.4, 21.9), (44.07, 21.23), (TX, 21.23)], wide)
     b.track("MOT_A1", [(41.45, 23.0), (42.6, 23.0), (43.4, 23.1)], neck)
-    b.track("MOT_A1", [(43.4, 23.1), (44.5, 24.25), (50.0, 24.25)], wide)
+    b.track("MOT_A1", [(43.4, 23.1), (44.07, 23.77), (TX, 23.77)], wide)
     b.track("MOT_A2", [(40.5, 24.95), (40.5, 26.2)], neck)
-    b.track("MOT_A2", [(40.5, 26.2), (41.5, 27.2), (42.05, 27.75), (50.0, 27.75)], wide)
+    b.track("MOT_A2", [(40.5, 26.2), (40.61, 26.31), (TX, 26.31)], wide)
     # VS pins 28 and 22 straight down into the In2 VIN plane.
-    b.track("VIN", [(41.45, 21.0), (41.9, 21.0), (41.7, 19.6)], neck)
-    b.via(41.7, 19.6, "VIN")
-    b.track("VIN", [(41.45, 24.0), (41.9, 24.0), (41.7, 25.4)], neck)
-    b.via(41.7, 25.4, "VIN")
+    b.track("VIN", [(41.45, 21.0), (41.9, 21.0), (41.9, 20.2)], neck)
+    b.via(41.9, 20.2, "VIN")
+    b.track("VIN", [(41.45, 24.0), (41.9, 24.0), (41.9, 24.8)], neck)
+    b.via(41.9, 24.8, "VIN")
     # Sense pins 27 (BRB) and 23 (BRA): a via each; the router takes them to R10 / R9.
     b.track("TMC_BRB", [(41.45, 21.5), (42.2, 21.5), (42.7, 21.1)], neck)
     b.via(42.7, 21.1, "TMC_BRB")
@@ -256,12 +251,12 @@ def tmc_power_stage(b):
     b.via(42.7, 23.9, "TMC_BRA")
     b.place("R10", 42.0, 13.8)        # BRB sense, above coil B
     b.place("R9", 43.9, 31.0)         # BRA sense, below coil A
-    b.place("C19", 44.6, 17.75)       # VS caps between the motor tracks
-    b.place("C18", 44.6, 26.0)
+    b.place("C19", 44.6, 16.6)        # VS caps just outside the motor tracks
+    b.place("C18", 44.6, 28.4)
     # Keep packed parts off the motor tracks.
-    b.keepout(40.0, 15.2, 48.8, 16.9)
-    b.keepout(41.8, 18.8, 48.8, 25.0)
-    b.keepout(40.0, 26.6, 48.8, 28.5)
+    b.keepout(40.0, 17.9, 48.8, 19.5)
+    b.keepout(41.8, 20.4, 48.8, 24.6)
+    b.keepout(40.0, 25.6, 48.8, 27.1)
 
 
 def layout(sch):
@@ -270,9 +265,7 @@ def layout(sch):
     for ref, x, y in (("H1", 3.5, 3.5), ("H2", W - 3.5, 3.5),
                       ("H3", 3.5, H - 3.5), ("H4", W - 3.5, H - 3.5)):
         b.place(ref, x, y)
-    b.edge("J6", "right", 17.75, 90)    # motor coil B (pins at y 16.0 / 19.5), wires enter from the right
-    b.edge("J3", "right", 26.0, 90)     # motor coil A (pins at y 24.25 / 27.75)
-    b.edge("J2", "right", 34.0, 90)     # VIN/GND below (pins at y 32.25 / 35.75)
+    b.edge("J3", "right", 25.04, 90)    # power + motor terminal: pins at y 31.39 (VIN) .. 18.69 (B2)
     b.edge("J5", "bottom", 30, 0)       # USB-C, opening faces down
     b.edge("J4", "top", 29, 90)         # expansion header
     b.place("U2", 39, 22.5, 270)      # TMC2209; motor and sense pins face J3, DIAG/UART face the MCU
