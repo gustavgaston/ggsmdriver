@@ -31,10 +31,9 @@ LCSC = {
     "22nF 50V": "C77571", "220nF": "C64705", "220nF 50V": "C64705",
     "1uF": "C15849", "75pF": "C1681", "4.7uF": "C1779", "10uF": "C15850",
     "10uF 50V": "C13585", "22uF 25V": "C12891",
-    # LEDs (2026-10-19): red KT-0603R is JLC Basic; green KT-0603G is Extended (no
-    # in-stock Basic green/blue/yellow found); white is Basic but too dim on 3.3 V.
-    "PWR red": "C2286", "STATUS green": "C12624", "STEP red": "C2286",
-    "DIR red": "C2286", "DIR green": "C12624",
+    # LEDs: all red KT-0603R, the one in-stock JLC Basic colour (Gustav, 2026-10-20).
+    "PWR red": "C2286", "STATUS red": "C2286", "STEP red": "C2286",
+    "DIR+ red": "C2286", "DIR- red": "C2286",
 }
 
 
@@ -149,7 +148,7 @@ def build():
     c("C15", "100nF", "NRST", "GND", b)
     r("R7", "10k", "BOOT0_SWCLK", "GND", b)
     r("R8", "1k", "LED_STAT_R", "LED_STAT", b)
-    led("D3", "STATUS green", "LED_STAT", "GND", b)
+    led("D3", "STATUS red", "LED_STAT", "GND", b)
 
     b = "Buttons and SWD"
     sw = "Button_Switch_SMD:SW_Push_1P1T_XKB_TS-1187A"
@@ -195,9 +194,9 @@ def build():
     r("R14", "20k", "TMC_STEP", "LED_STEP", b)
     led("D4", "STEP red", "LED_STEP", "GND", b)
     r("R15", "20k", "LED_DIRH", "GND", b)
-    led("D5", "DIR red", "TMC_DIR", "LED_DIRH", b)
+    led("D5", "DIR+ red", "TMC_DIR", "LED_DIRH", b)
     r("R16", "20k", "+3V3", "LED_DIRL", b)
-    led("D6", "DIR green", "LED_DIRL", "TMC_DIR", b)
+    led("D6", "DIR- red", "LED_DIRL", "TMC_DIR", b)
 
     # --- Motor and expansion ------------------------------------------------
     b = "Connectors"
