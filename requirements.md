@@ -187,9 +187,17 @@ capacitors get picked from JLC Basic parts in milestone 2.
 - All LEDs red C2286 (Basic). J4 header has no LCSC number, so it stays out of the JLC
   BOM/CPL and is hand-soldered.
 - C16 22 nF -> Samsung CL10B223KB8NNNC C21122 (Basic, same spec).
-- C17, C18, C19, C23 220 nF -> 100 nF 50 V C14663 (Basic), the TMC2209 datasheet value
-  for VCP, VS and VCC_IO.
-- C4 buck feed-forward 75 pF -> 100 pF C0G C14858 (Basic), nearest Basic value.
+- C17, C18, C19, C23 220 nF -> 100 nF 50 V C14663 (Basic). 220 nF came from Adafruit's
+  breakout (0.22 uF/50V on VCP, VS x2, VDD). The TMC2209 datasheet (rev 1.08, 2.2) gives
+  100 nF for VCP; it names no value for the VS ceramics or VCC_IO, and Trinamic's own
+  TMC2209-BOB uses 100 nF 50 V parts.
+- C4 buck feed-forward 75 pF -> 100 pF C0G C14858 (Basic). 75 pF and the whole buck
+  (100 k/13.3 k, 15 uH, 2x22 uF) come from TI's TPS54202 EVM guide. With 100 k/13 k the
+  Cff zero/pole move from 21/184 kHz to 16/138 kHz: phase boost stays within about 3 deg
+  over 30-80 kHz, loop gain near crossover rises up to about 2 dB (crossover up about 25%).
+  Calculated, not simulated or measured.
+- LEDs in one column at the top-right (PWR, STAT, STEP, DIR+, DIR-, labelled on silk,
+  reference text hidden); their resistors sit below J3.
 - Still Extended (no Basic equivalent found): U1, U2, U3, U5, L1, J3, J5, R9/R10, C20.
 
 ## Confirmed 2026-10-17 (firmware)

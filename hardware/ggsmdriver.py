@@ -190,7 +190,7 @@ def build():
           "Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm",
           {"A": "TMC_SPREAD", "B": "+3V3"}, b)
     r("R13", "1k", "TMC_TX", "TMC_UART", b)  # datasheet 2-pin UART; RX is direct
-    # Activity LEDs as on Adafruit: STEP (red here), DIR high red, DIR low green.
+    # Activity LEDs as on Adafruit: STEP, DIR high, DIR low (all red here).
     r("R14", "20k", "TMC_STEP", "LED_STEP", b)
     led("D4", "STEP red", "LED_STEP", "GND", b)
     r("R15", "20k", "LED_DIRH", "GND", b)
@@ -338,11 +338,19 @@ def layout(sch):
     for p in sch.parts:
         if p.footprint and b._rects.get(p.ref) is None:
             blocks.setdefault(p.block, []).append(p.ref)
-    leds = ["R6", "D2", "R14", "D4", "R15", "D5", "R16", "D6"]  # LEDs together, top-left
-    b.region(7, 0.5, 19.5, 9, leds)
+    # Indicator LEDs in one column at the top-right, labelled; their resistors below J3.
+    leds = ["R6", "D2", "R8", "D3", "R14", "D4", "R15", "D5", "R16", "D6"]
+    for i, (ref, label) in enumerate((("D2", "PWR"), ("D3", "STAT"), ("D4", "STEP"),
+                                      ("D5", "DIR+"), ("D6", "DIR-"))):
+        y = 8.0 + 1.8 * i
+        b.place(ref, 49.9, y)
+        b.board.FindFootprintByReference(ref).Reference().SetVisible(False)
+        b.text(53.1, y, label, 0.8)
+    for ref, x, y in (("R6", 39.7, 34.6), ("R8", 39.7, 36.6), ("R14", 42.9, 34.6), ("R15", 46.1, 34.6), ("R16", 46.1, 36.6),):
+        b.place(ref, x, y)
     b.region(16, 3, 35, 19, [r for r in blocks["Buck 5V"] + blocks["LDO 3V3"] if r not in leds])
     b.region(32, 4, 48, 38, [r for r in blocks["TMC2209"] if r not in leds])
-    b.region(16, 17, 34, 35, blocks["MCU"])
+    b.region(16, 17, 34, 35, [r for r in blocks["MCU"] if r not in leds])
     b.region(8, 33, 47, 45, blocks["USB-C"])
     b.region(7, 21, 24, 45, blocks["Buttons and SWD"])
 
