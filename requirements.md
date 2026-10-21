@@ -207,6 +207,13 @@ capacitors get picked from JLC Basic parts in milestone 2.
   DRC is clean, silkscreen included.
 - Still Extended: U1, U2, U3, U5, L1, J3, J5, R9/R10, C20 (no Basic equivalent) and C4 (kept).
 
+## Revision 1: locked 2026-10-21 (Gustav)
+
+Board, schematic and fab files at git tag `rev1` are frozen until the JLCPCB order is
+placed. Change requests from now on go into a rev 2 list, not into the design.
+Before ordering: check LED polarity and part rotations in JLC's placement preview, and
+hand-solder J4 (header) and J6 (Samtec FTSH-107-01-L-DV-K).
+
 ## 2026-10-21 (debug connector, Gustav)
 
 - No debugging over USB: DFU only flashes. Debug stays SWD through the STLINK-V3MINIE.
