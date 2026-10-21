@@ -139,6 +139,7 @@ def build():
            "PA0": "ENC_A", "PA1": "ENC_B", "PA2": "TMC_TX", "PA3": "TMC_UART",
            "PA4": "IO1", "PA5": "IO2", "PA6": "TMC_STEP", "PA7": "TMC_DIR",
            "PB0": "TMC_EN", "PB1": "TMC_DIAG", "PB2": "LED_STAT_R",
+           "PB6": "VCP_TX", "PB7": "VCP_RX",  # USART1 to the STLINK virtual COM port
            # PC6/PC7 here are VSS/VDDIO2 on the CBT6N, so either part fits.
            "PC6": "GND", "PC7": "+3V3"}, b, {"LCSC": "C2847904"})
     c("C11", "100nF", "+3V3", "GND", b)
@@ -156,9 +157,14 @@ def build():
           {"1": "+3V3", "2": "BOOT0_SWCLK"}, b, {"LCSC": "C318884"})
     s.add("SW2", "Switch:SW_Push", "RESET", sw,
           {"1": "NRST", "2": "GND"}, b, {"LCSC": "C318884"})
-    for i, net in enumerate(["+3V3", "SWDIO", "BOOT0_SWCLK", "NRST", "GND"], 1):
-        s.add(f"TP{i}", "Connector:TestPoint", net,
-              "TestPoint:TestPoint_Pad_D1.0mm", {"1": net}, b)
+    # STDC14 debug connector for the STLINK-V3MINIE flat cable (replaces the SWD test pads).
+    # Samtec FTSH-107-01-L-DV-K (keyed shroud, mates FFSD), hand-soldered: no LCSC number.
+    # 1, 2, 9 reserved; 8 SWO and 10 JTDI unused (Cortex-M0+ has no SWO); 11 GNDDetect.
+    # 13/14 are the probe's virtual COM port, wired to USART1 (PB7 RX, PB6 TX).
+    s.add("J6", "Connector_Generic:Conn_02x07_Odd_Even", "STDC14",
+          "Connector_PinHeader_1.27mm:PinHeader_2x07_P1.27mm_Vertical_SMD",
+          {"3": "+3V3", "4": "SWDIO", "5": "GND", "6": "BOOT0_SWCLK", "7": "GND",
+           "11": "GND", "12": "NRST", "13": "VCP_RX", "14": "VCP_TX"}, b)
 
     # --- TMC2209 (Adafruit breakout circuit) --------------------------------
     b = "TMC2209"
@@ -309,8 +315,11 @@ def layout(sch):
     b.place("L1", 25.9, 7)
     b.place("U4", 18.5, 14)           # LDO
     b.place("C20", 39, 9)             # VS bulk electrolytic
-    b.place("SW1", 12.5, 24.5)        # BOOT
-    b.place("SW2", 12.5, 40.5)        # RESET
+    b.place("SW1", 13.0, 24.5)        # BOOT
+    b.place("SW2", 13.0, 40.5)        # RESET
+    b.place("J6", 4.45, 24.5)         # STLINK STDC14, under the LEDs, pin 1 top-left
+    for ref, y in (("C14", 20.5), ("C13", 22.5), ("C11", 24.5), ("C12", 27.0), ("C15", 29.5)):
+        b.place(ref, 18.5, y)         # MCU decoupling in a column beside its supply pins
 
     # Decoupling and support parts next to the pins they serve.
     for ref, target, pad in (
@@ -359,7 +368,8 @@ def layout(sch):
     b.region(32, 4, 48, 38, [r for r in blocks["TMC2209"] if r not in leds])
     b.region(16, 17, 34, 35, [r for r in blocks["MCU"] if r not in leds])
     b.region(8, 33, 47, 45, blocks["USB-C"])
-    b.region(7, 21, 24, 45, blocks["Buttons and SWD"])
+    if blocks.get("Buttons and SWD"):
+        b.region(7, 21, 24, 45, blocks["Buttons and SWD"])
 
     # Thermal vias under the TMC2209 pad into the In1 GND plane.
     ux, uy = b._anchor("U2")
@@ -380,7 +390,7 @@ def layout(sch):
     b.text(W / 2, H - 1.2, "GGSMDriver", 1.0, "B.SilkS")
     for ref in ("H1", "H2", "H3", "H4"):  # mounting holes need no designator
         b.board.FindFootprintByReference(ref).Reference().SetVisible(False)
-    crowded = b.tidy_silk(fixed={"C12": (15.85, 27.65, 0)})  # boxed in by SW1, C15 and U1
+    crowded = b.tidy_silk()
     if crowded:
         print("silk: no clear spot for", ", ".join(crowded))
     return b

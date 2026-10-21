@@ -1,7 +1,7 @@
 ** Drc report for /home/claude/ggsmdriver/kicad/ggsmdriver.kicad_pcb **
-** Created on 2026-10-20 20:14:41 **
+** Created on 2026-10-21 06:31:21 **
 
-** Found 65 DRC violations **
+** Found 61 DRC violations **
 [lib_footprint_issues]: The current configuration does not include the library 'MountingHole'.
     Local override; Severity: warning
     @(151.5000 mm, 141.5000 mm): Footprint H4
@@ -80,27 +80,15 @@
 [lib_footprint_issues]: The current configuration does not include the library 'Package_DFN_QFN'.
     Local override; Severity: warning
     @(139.0000 mm, 122.5000 mm): Footprint U2
-[lib_footprint_issues]: The current configuration does not include the library 'TestPoint'.
+[lib_footprint_issues]: The current configuration does not include the library 'Connector_PinHeader_1.27mm'.
     Local override; Severity: warning
-    @(108.0000 mm, 131.5000 mm): Footprint TP5
-[lib_footprint_issues]: The current configuration does not include the library 'TestPoint'.
-    Local override; Severity: warning
-    @(115.5000 mm, 129.5000 mm): Footprint TP4
-[lib_footprint_issues]: The current configuration does not include the library 'TestPoint'.
-    Local override; Severity: warning
-    @(113.0000 mm, 129.0000 mm): Footprint TP3
-[lib_footprint_issues]: The current configuration does not include the library 'TestPoint'.
-    Local override; Severity: warning
-    @(110.5000 mm, 129.0000 mm): Footprint TP2
-[lib_footprint_issues]: The current configuration does not include the library 'TestPoint'.
-    Local override; Severity: warning
-    @(108.0000 mm, 129.0000 mm): Footprint TP1
+    @(104.4500 mm, 124.5000 mm): Footprint J6
 [lib_footprint_issues]: The current configuration does not include the library 'Button_Switch_SMD'.
     Local override; Severity: warning
-    @(112.5000 mm, 140.5000 mm): Footprint SW2
+    @(113.0000 mm, 140.5000 mm): Footprint SW2
 [lib_footprint_issues]: The current configuration does not include the library 'Button_Switch_SMD'.
     Local override; Severity: warning
-    @(112.5000 mm, 124.5000 mm): Footprint SW1
+    @(113.0000 mm, 124.5000 mm): Footprint SW1
 [lib_footprint_issues]: The current configuration does not include the library 'LED_SMD'.
     Local override; Severity: warning
     @(105.9000 mm, 111.8000 mm): Footprint D3
@@ -145,7 +133,7 @@
     @(118.5000 mm, 114.0000 mm): Footprint U4
 [lib_footprint_issues]: The current configuration does not include the library 'Diode_SMD'.
     Local override; Severity: warning
-    @(120.5000 mm, 137.5000 mm): Footprint D1
+    @(118.5000 mm, 135.0000 mm): Footprint D1
 [lib_footprint_issues]: The current configuration does not include the library 'Capacitor_SMD'.
     Local override; Severity: warning
     @(124.5000 mm, 134.0000 mm): Footprint C8

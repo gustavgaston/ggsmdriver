@@ -68,7 +68,8 @@ No custom bootloader: the ROM DFU bootloader is used, app at `0x08000000`.
 If the ROM bootloader is not entered, check the `nBOOT_SEL`/`nBOOT0` option bytes
 (the BOOT button drives PA14-BOOT0); not checked here.
 
-SWD pads (PA13/PA14) work with CubeIDE's debugger.
+SWD on J6 (STDC14, STLINK-V3MINIE cable) works with CubeIDE's debugger. USART1
+(PB6 TX, PB7 RX) is wired to the STLINK virtual COM port (J6 pins 14/13) but not set up in firmware yet.
 
 ## What is ported
 

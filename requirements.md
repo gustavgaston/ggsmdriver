@@ -32,7 +32,7 @@ Milestone 1, 2026-10-16. All confirmed by Gustav.
 - No crystal: USB runs from HSI48 with CRS.
 - NRST: 100 nF to GND + RESET button to GND.
 - PA14-BOOT0: BOOT button to `+3V3`, 10 k pull-down (shares SWCLK).
-- SWD (PA13 SWDIO, PA14 SWCLK, NRST, 3V3, GND) on test pads, no header.
+- SWD on J6, an STDC14 connector for the STLINK-V3MINIE flat cable (2026-10-21; replaced the test pads).
 - Pins 30/31 tied to GND / `+3V3`: they are PC6/PC7 on CBT6 and
   VSS/VDDIO2 on CBT6N, so either part fits the same board.
 - UCPD dead-battery pins 29/32 left open (as EBB36).
@@ -86,11 +86,13 @@ Deviations (confirmed 2026-10-16):
 | 19 | PB0 | TMC_EN | GPIO (ENN, active low) |
 | 20 | PB1 | TMC_DIAG | GPIO/EXTI1 |
 | 21 | PB2 | LED_STATUS | GPIO |
+| 45 | PB6 | VCP_TX | USART1_TX → J6 pin 14 (STLINK virtual COM) |
+| 46 | PB7 | VCP_RX | USART1_RX ← J6 pin 13 |
 | 33 | PA11 | USB_DM | USB |
 | 34 | PA12 | USB_DP | USB |
-| 35 | PA13 | SWDIO | SWD pad |
-| 36 | PA14-BOOT0 | BOOT0/SWCLK | BOOT button, SWD pad |
-| 10 | PF2-NRST | NRST | RESET button, SWD pad |
+| 35 | PA13 | SWDIO | J6 pin 4 |
+| 36 | PA14-BOOT0 | BOOT0/SWCLK | BOOT button, J6 pin 6 |
+| 10 | PF2-NRST | NRST | RESET button, J6 pin 12 |
 
 Pin functions checked against ST's STM32_open_pin_data
 (`mcu/STM32G0B1C(B-C-E)Tx.xml`). USB on pins 33/34 matches BTT EBB36 V1.2.
@@ -204,6 +206,20 @@ capacitors get picked from JLC Basic parts in milestone 2.
   pads, silk and other designators (C12 placed by hand); mounting-hole refs hidden.
   DRC is clean, silkscreen included.
 - Still Extended: U1, U2, U3, U5, L1, J3, J5, R9/R10, C20 (no Basic equivalent) and C4 (kept).
+
+## 2026-10-21 (debug connector, Gustav)
+
+- No debugging over USB: DFU only flashes. Debug stays SWD through the STLINK-V3MINIE.
+  The G0 is a Cortex-M0+, so there is no SWO trace; breakpoints, stepping and memory
+  view work.
+- J6: STDC14 (2x7, 1.27 mm), Samtec FTSH-107-01-L-DV-K (keyed shroud for the FFSD flat
+  cable that ships with the MINIE; pinout from ST UM2910). Footprint KiCad
+  PinHeader_2x07_P1.27mm_Vertical_SMD. No LCSC number: hand-soldered.
+  Pins: 3 +3V3 (probe senses only, it does not power the board), 4 SWDIO, 6 SWCLK,
+  5/7/11 GND (11 is GNDDetect), 12 NRST, 13 VCP_RX -> PB7, 14 VCP_TX <- PB6;
+  1, 2, 8, 9, 10 not connected.
+- The five SWD test pads were removed (same signals on J6). The MCU decoupling caps
+  are pinned in their column next to U1.
 
 ## Confirmed 2026-10-17 (firmware)
 
