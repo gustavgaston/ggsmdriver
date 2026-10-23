@@ -1,60 +1,47 @@
-# GGSMDriver aluminum case
+# GGSMDriver 3D-printed case
 
-Two 3 mm aluminum plates, the same 55 x 45 mm footprint as the board, held on the
-board's four M3 mounting holes with brass standoffs. Fits rev 1 (9660d0a); the board
-itself is unchanged.
+A slim snap-fit case for when the board is mounted. No screws hold the covers
+together. Fits rev 1 (9660d0a); the board itself is unchanged. Outside size is
+58.6 x 48.6 x 17.7 mm.
 
 | File | What |
 |---|---|
-| `ggsmdriver-case-top.dxf` | Top plate, seen from above (terminal side on the right) |
-| `ggsmdriver-case-bottom.dxf` | Bottom plate |
-| `ggsmdriver-case.stl` | Assembled preview: plates, standoffs, screw heads, board and its tallest parts as rough blocks |
-| `make_case.py` | Regenerates all three from `../../ggsmdriver.kicad_pcb` |
+| `ggsmdriver-case-bottom.stl` / `.step` | Bottom cover |
+| `ggsmdriver-case-top.stl` / `.step` | Top cover |
+| `ggsmdriver-case.step` | Both covers in place, for import into Rhino next to the board model |
+| `make_case.py` | Regenerates everything (`pip install cadquery`; the dimensions are at the top of the file) |
 
-DXF units are mm, origin at the plate's bottom-left corner. Layer `CUT_OUTLINE` is the
-profile (one closed polyline with arcs), layer `DRILL` the holes.
+Coordinates: mm, origin at the board's bottom-left corner seen from above
+(KiCad x − 100, 145 − KiCad y), and z = 0 under the bottom cover. The board top is
+at z 7.1. To line the case up with a KiCad 10 STEP export of the board (which uses
+KiCad coordinates, Y flipped), move the case by (100, −145, 5.5).
 
-## Machining (4 mm end mill)
+## Bottom cover
 
-- **Drill:** the four 3.4 mm holes (M3 clearance) at 3.5 mm from each corner, 48 x 38 mm
-  apart. They are smaller than the end mill, so drill them.
-- **Mill:** the outer profile (3 mm corner radius) on both plates, and on the top plate
-  the 7.7 x 18 mm notch over the screw terminal. Its inside corners are 2 mm radius,
-  so a 4 mm end mill cuts them as drawn. No feature is narrower than 7.7 mm.
+- 2.5 mm floor, exactly the 55 x 45 mm board outline, so nothing sticks out past
+  the board edge and USB-C stays reachable with only the bottom fitted.
+- Four 3 mm-high, 6 mm bosses under the board's M3 holes, with 2.5 mm pilot holes
+  for **4 x M3 x 6 self-tapping pan-head screws** (e.g. for plastic). The board's
+  through-hole pin tails reach 1.9 mm below the board, so there is 1.1 mm to spare.
+- Two 3.4 mm holes for mounting the case (M3, or a #4/#6 wood screw), 31 mm apart
+  on the centre line. The screw heads sit on the floor under the board (2.4 mm max
+  head height), so mount the bottom cover before fitting the board.
+- A snap groove along the middle 32 mm of each long side.
 
-## Stack (bottom to top)
+## Top cover
 
-| Layer | Height | Notes |
-|---|---|---|
-| Bottom plate | 3 mm | |
-| Standoff, M3 x 6 male-female | 6 mm | Male stud up through the board. Clears the through-hole pin tails of J3/J4 (~3 mm) |
-| Board | 1.6 mm | |
-| Standoff, M3 x 12 female-female | 12 mm | Sits on the stud. Clears the J4 header pins (8.5 mm), screw terminal J3 (~9 mm), C20 (5.8 mm), J6 (~5 mm) by 3 mm or more |
-| Top plate | 3 mm | |
+- 1.6 mm walls, 1.5 mm lid, 0.2 mm clearance around the board. 0.6 mm headroom
+  over the tallest parts (J3 terminal and J4 header, both 8.5 mm above the board,
+  measured from the KiCad 10 3D models).
+- Snap ridges (0.5 mm) on both long walls click into the bottom cover's grooves.
+  To open, flex a long wall outwards.
+- Cable cutout in the right wall for the motor/power wires on J3 (18 mm wide,
+  open at the bottom so the cover slides down over wired terminals).
+- Thin 20 x 2 mm slot in the back wall at J4 for the optional GPIO wires.
+- USB-C, J6 and the buttons are covered.
 
-Overall about 25.6 mm tall plus screw heads.
+## Printing
 
-## Parts list
-
-| Qty | Part |
-|---|---|
-| 4 | M3 x 6 mm hex standoff, male-female, brass (5 or 5.5 mm hex, male thread 5-6 mm) |
-| 4 | M3 x 12 mm hex standoff, female-female, brass |
-| 8 | M3 x 6 mm button head screw (ISO 7380), stainless |
-
-The stud of the 6 mm standoff passes the 1.6 mm board and goes about 4 mm into the
-12 mm standoff, which leaves plenty of thread for the 3 mm the top screw needs. The
-bottom screw goes 3 mm into the female end of the 6 mm standoff.
-
-## Access with the case closed
-
-- **Screw terminal J3** (motor + power): wires enter from the right side between the
-  plates; the notch in the top plate leaves its screws reachable.
-- **USB-C:** front edge, plates flush with the board edge, so any plug fits.
-- **Headers J4 and J6** are covered, as asked. The ST-Link ribbon on J6 needs the top
-  plate off (or a notch over J6 on the left edge, if that turns out to be annoying).
-- **BOOT/RESET buttons** are covered: take the top plate off to enter DFU.
-
-Component heights are from datasheets/typical values, not measured; check J3 and J4
-with calipers after soldering. If a taller female header goes on J4, use 15 mm top
-standoffs instead.
+Print the bottom cover floor-down and the top cover lid-down, no supports needed
+except the bridge over the cable cutout and the slot (short bridges). PETG flexes
+better than PLA for the snap.
