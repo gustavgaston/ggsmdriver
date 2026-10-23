@@ -14,7 +14,7 @@ together. Fits rev 1 (9660d0a); the board itself is unchanged. Outside size is
 Coordinates: mm, origin at the board's bottom-left corner seen from above
 (KiCad x − 100, 145 − KiCad y), and z = 0 under the bottom cover. The board top is
 at z 7.1. To line the case up with a KiCad 10 STEP export of the board (which uses
-KiCad coordinates, Y flipped), move the case by (100, −145, 5.5).
+KiCad coordinates, Y flipped), move the case by (100, −145, −5.5).
 
 ## Bottom cover
 
