@@ -1,6 +1,6 @@
 """3D-printed snap-fit case for GGSMDriver rev 1.
 
-Writes ggsmdriver-case-bottom.stl/.step, ggsmdriver-case-top.stl/.step and the
+Writes ggsmdriver-case-bottom.step, ggsmdriver-case-top.step and the
 assembly ggsmdriver-case.step (both covers in place) next to this file.
 Coordinates: mm, origin at the board's bottom-left corner seen from above
 (KiCad x - 100, 145 - KiCad y), z = 0 at the underside of the bottom cover.
@@ -89,7 +89,6 @@ def top():
 if __name__ == '__main__':
     b, t = bottom(), top()
     for name, part in (('bottom', b), ('top', t)):
-        cq.exporters.export(part, os.path.join(HERE, f'ggsmdriver-case-{name}.stl'), tolerance=0.02)
         cq.exporters.export(part, os.path.join(HERE, f'ggsmdriver-case-{name}.step'))
     asm = cq.Assembly().add(b, name='bottom', color=cq.Color(0.3, 0.3, 0.3)) \
                        .add(t, name='top', color=cq.Color(0.9, 0.9, 0.9, 0.5))

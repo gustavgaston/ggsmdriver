@@ -6,8 +6,8 @@ together. Fits rev 1 (9660d0a); the board itself is unchanged. Outside size is
 
 | File | What |
 |---|---|
-| `ggsmdriver-case-bottom.stl` / `.step` | Bottom cover |
-| `ggsmdriver-case-top.stl` / `.step` | Top cover |
+| `ggsmdriver-case-bottom.step` | Bottom cover |
+| `ggsmdriver-case-top.step` | Top cover |
 | `ggsmdriver-case.step` | Both covers in place, for import into Rhino next to the board model |
 | `make_case.py` | Regenerates everything (`pip install cadquery`; the dimensions are at the top of the file) |
 
